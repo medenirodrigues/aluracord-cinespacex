@@ -1,36 +1,8 @@
-import appConfig from '../config.json'
-import { Box, Button, Text, TextField, Image } from '@skynexui/components';
+import React from "react";
+import { useRouter } from "next/router";
 
-function GlobalStyle() {
-  return (
-    <style global jsx>{`
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-        list-style: none;
-      }
-      body {
-        font-family: "Open Sans", sans-serif;
-      }
-      /* App fit Height */
-      html,
-      body,
-      #__next {
-        min-height: 100vh;
-        display: flex;
-        flex: 1;
-      }
-      #__next {
-        flex: 1;
-      }
-      #__next > * {
-        flex: 1;
-      }
-      /* ./App fit Height */
-    `}</style>
-  );
-}
+import appConfig from "../config.json";
+import { Box, Button, Text, TextField, Image } from "@skynexui/components";
 
 function Titulo(props) {
   const Tag = props.tag || "h1";
@@ -39,7 +11,7 @@ function Titulo(props) {
       <Tag>{props.children}</Tag>
       <style jsx>{`
         ${Tag} {
-          color: ${appConfig.theme.colors.neutrals['000']}; 
+          color: ${appConfig.theme.colors.neutrals["000"]};
           font-size: 24px;
           font-weight: 600;
         }
@@ -48,63 +20,82 @@ function Titulo(props) {
   );
 }
 
-//Componente React
-// function HomePage() {
-//   return (
-//     <>
-//       <GlobalStyle />
-//       <Titulo tag="h2">Boas Vindas de Volta!</Titulo>
-//       <h2>Discord - Alura Matrix</h2>
-//     </>
-//   );
-// }
-
-// export default HomePage;
-
-export default function PaginaInicial() {
-  const username = 'peas';
+export default function LoginPage() {
+  const [username, setUsername] = React.useState("medenirodrigues");
+  const goTo = useRouter();
+  
+  /**
+   * Criar uma api que retorne o avatar de atores/atrizes caso o usuário ainda não esteja logado!
+   */
 
   return (
     <>
-      <GlobalStyle />
       <Box
         styleSheet={{
-          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
           backgroundColor: appConfig.theme.colors.primary[500],
-          backgroundImage: 'url(https://reflectionofbcmlectures.files.wordpress.com/2013/09/old-skool-3d-cinema-audience.jpg)',
-          backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundBlendMode: 'multiply',
+          backgroundImage:
+            "url(https://reflectionofbcmlectures.files.wordpress.com/2013/09/old-skool-3d-cinema-audience.jpg)",
+          backgroundRepeat: "no-repeat",
+          backgroundSize: "cover",
+          backgroundBlendMode: "multiply",
         }}
       >
         <Box
           styleSheet={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
             flexDirection: {
-              xs: 'column',
-              sm: 'row',
+              xs: "column",
+              sm: "row",
             },
-            width: '100%', maxWidth: '700px',
-            borderRadius: '5px', padding: '32px', margin: '16px',
-            boxShadow: '0 2px 10px 0 rgb(0 0 0 / 20%)',
+            width: "100%",
+            maxWidth: "700px",
+            borderRadius: "5px",
+            padding: "32px",
+            margin: "16px",
+            boxShadow: "0 2px 10px 0 rgb(0 0 0 / 20%)",
             backgroundColor: appConfig.theme.colors.neutrals[700],
           }}
         >
           {/* Formulário */}
           <Box
             as="form"
+            onSubmit={(eventInfo) => {
+              eventInfo.preventDefault();
+              goTo.push("/chat");
+            }}
             styleSheet={{
-              display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
-              width: { xs: '100%', sm: '50%' }, textAlign: 'center', marginBottom: '32px',
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "center",
+              width: { xs: "100%", sm: "50%" },
+              textAlign: "center",
+              marginBottom: "32px",
             }}
           >
-            <Titulo tag="h2">Boas vindas de volta!</Titulo>
-            <Text variant="body3" styleSheet={{ marginBottom: '32px', color: appConfig.theme.colors.neutrals[300] }}>
+            <Titulo tag="h2">Welcome back! ;D</Titulo>
+            <Text
+              variant="body3"
+              styleSheet={{
+                marginBottom: "32px",
+                color: appConfig.theme.colors.neutrals[300],
+              }}
+            >
               {appConfig.name}
             </Text>
 
             <TextField
               fullWidth
+              value={username}
+              onChange={(event) => {
+                const userData = event.target.value;
+                setUsername(userData)
+              }}
               textFieldColors={{
                 neutral: {
                   textColor: appConfig.theme.colors.neutrals[200],
@@ -115,9 +106,15 @@ export default function PaginaInicial() {
               }}
             />
             <Button
-              type='submit'
-              label='Entrar'
+              type="submit"
+              label="Login"
               fullWidth
+              onClick={(eventClick) => {
+                if (username.length < 3) {
+                  window.alert('Insira um dado válido')
+                  eventClick.preventDefault()
+                } 
+              }}
               buttonColors={{
                 contrastColor: appConfig.theme.colors.neutrals["000"],
                 mainColor: appConfig.theme.colors.primary[500],
@@ -128,27 +125,26 @@ export default function PaginaInicial() {
           </Box>
           {/* Formulário */}
 
-
           {/* Photo Area */}
           <Box
             styleSheet={{
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              maxWidth: '200px',
-              padding: '16px',
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              maxWidth: "200px",
+              padding: "16px",
               backgroundColor: appConfig.theme.colors.neutrals[800],
-              border: '1px solid',
+              border: "1px solid",
               borderColor: appConfig.theme.colors.neutrals[999],
-              borderRadius: '10px',
+              borderRadius: "10px",
               flex: 1,
-              minHeight: '240px',
+              minHeight: "240px",
             }}
           >
             <Image
               styleSheet={{
-                borderRadius: '50%',
-                marginBottom: '16px',
+                borderRadius: "50%",
+                marginBottom: "16px",
               }}
               src={`https://github.com/${username}.png`}
             />
@@ -157,8 +153,8 @@ export default function PaginaInicial() {
               styleSheet={{
                 color: appConfig.theme.colors.neutrals[200],
                 backgroundColor: appConfig.theme.colors.neutrals[900],
-                padding: '3px 10px',
-                borderRadius: '1000px'
+                padding: "3px 10px",
+                borderRadius: "1000px",
               }}
             >
               {username}
