@@ -21,11 +21,21 @@ function Titulo(props) {
 }
 
 export default function LoginPage() {
+
+  /***
+   * através do destructuring ele cria a const username na qual ele seta a string passa no primeiro
+   * momento que carrega o component, setUsername é criado e a ele é atribuido o método nativo do
+   * React useState()
+   */
   const [username, setUsername] = React.useState("medenirodrigues");
+  /**
+   * useRouter() é um método para gerenciamento de rotas no Next.js... adicionar mais dados relacionados ao
+   * método
+   */
   const goTo = useRouter();
   
   /**
-   * Criar uma api que retorne o avatar de atores/atrizes caso o usuário ainda não esteja logado!
+   * [] Criar uma api que retorne o avatar de atores/atrizes caso o usuário ainda não esteja logado!
    */
 
   return (
@@ -64,7 +74,8 @@ export default function LoginPage() {
           {/* Formulário */}
           <Box
             as="form"
-            onSubmit={(eventInfo) => {
+            onSubmit={ eventInfo => {
+              // Cancela o comportamento padrão de carregar a págino ao mudar de rota
               eventInfo.preventDefault();
               goTo.push("/chat");
             }}
@@ -92,10 +103,7 @@ export default function LoginPage() {
             <TextField
               fullWidth
               value={username}
-              onChange={(event) => {
-                const userData = event.target.value;
-                setUsername(userData)
-              }}
+              onChange={event => setUsername(event.target.value)}
               textFieldColors={{
                 neutral: {
                   textColor: appConfig.theme.colors.neutrals[200],
