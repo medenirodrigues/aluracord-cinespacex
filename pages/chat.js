@@ -1,6 +1,8 @@
 import { Box, Text, TextField, Image, Button } from "@skynexui/components";
 import React from "react";
 import appConfig from "../config.json";
+import { useRouter } from "next/router";
+import { BtnSendSticker } from "./src/components/BtnSendSticker";
 import { createClient, SupabaseClient } from "@supabase/supabase-js";
 
 const SUPABASE_ANON_PUBLIC =
@@ -9,9 +11,10 @@ const SUPABASE_URL = "https://syrabaclfultwbmoygvl.supabase.co";
 const supabaseClient = createClient(SUPABASE_URL, SUPABASE_ANON_PUBLIC);
 
 export default function ChatPage() {
-  // Sua lógica vai aqui
+
   const [message, setMessage] = React.useState("");
   const [messageList, setMessageList] = React.useState([]);
+  const goTo = useRouter();
 
   /**
    * O useEffect()...
@@ -28,10 +31,12 @@ export default function ChatPage() {
   }, []);
   // Array trackeia possvíes alterações de estado que precisam refletir e executa o código contido
 
+  
+
   function handlerMessage(newMessage) {
     const objMessage = {
       // id : messageList.length;
-      from: "medenirodrigues",
+      from: goTo.query.username,
       text: newMessage,
     };
 
@@ -48,7 +53,7 @@ export default function ChatPage() {
 
     setMessage("");
   }
-  // ./Sua lógica vai aqui
+
 
   return (
     <Box
@@ -123,6 +128,7 @@ export default function ChatPage() {
                 color: appConfig.theme.colors.neutrals[200],
               }}
             />
+            <BtnSendSticker />
           </Box>
         </Box>
       </Box>
