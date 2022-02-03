@@ -31,6 +31,10 @@ export function BtnSendSticker(props) {
         }}
         label="😋"
         onClick={() => setOpenState(!isOpen)}
+        onKeyPress={(event) => {
+          // adicionar uma forma de fechar o component tbm apertando "Esc"
+          console.log(event.key)
+        }}
       />
       {isOpen && (
         <Box
@@ -51,6 +55,7 @@ export function BtnSendSticker(props) {
             boxShadow: 'rgba(4, 4, 5, 0.15) 0px 0px 0px 1px, rgba(0, 0, 0, 0.24) 0px 8px 16px 0px',
           }}
           onClick={() => setOpenState(false)}
+          
         >
           <Text
             styleSheet={{
@@ -74,8 +79,9 @@ export function BtnSendSticker(props) {
             {appConfig.stickers.map((sticker) => (
               <Text
                 onClick={() => {
-                  // console.log('[DENTRO DO COMPONENTE] Clicou no sticker:', sticker);
+                  //console.log('[DENTRO DO COMPONENTE] Clicou no sticker:', sticker);
                   if (Boolean(props.onStickerClick)) {
+                    console.log(props.onStickerClick)
                     props.onStickerClick(sticker);
                   }
                 }}

@@ -37,7 +37,7 @@ export default function ChatPage() {
     const objMessage = {
       // id : messageList.length;
       from: goTo.query.username,
-      text: newMessage,
+      text: newMessage
     };
 
     //console.log(objMessage)
@@ -112,6 +112,7 @@ export default function ChatPage() {
                 setMessage(event.target.value);
               }}
               onKeyPress={(event) => {
+
                 if (event.key === "Enter") {
                   event.preventDefault();
                   handlerMessage(message);
@@ -128,7 +129,12 @@ export default function ChatPage() {
                 color: appConfig.theme.colors.neutrals[200],
               }}
             />
-            <BtnSendSticker />
+
+            <BtnSendSticker onStickerClick={(chosenSticker) => {
+              //console.log(chosenSticker)
+              setMessage(":sticker: " + chosenSticker)
+            }} />
+
           </Box>
         </Box>
       </Box>
@@ -161,13 +167,12 @@ function Header() {
 }
 
 function MessageList(props) {
-  //console.log(props);
 
   return (
     <Box
       tag="ul"
       styleSheet={{
-        // overflow: "scroll",
+        overflow: "scroll",
         display: "flex",
         flexDirection: "column-reverse",
         flex: 1,
@@ -216,7 +221,16 @@ function MessageList(props) {
                 {new Date().toLocaleDateString()}
               </Text>
             </Box>
-            {currentMessage.text}
+            {currentMessage.text.startsWith(":sticker:")? (
+              <Image 
+                src={currentMessage.text.replace(":sticker:", "")}
+                styleSheet={{
+                  width: '10%',
+                  borderRadius: '5px',
+                  padding: '10px',
+                }}
+               />
+            ) : currentMessage.text }
           </Text>
         );
       })}
