@@ -11,16 +11,42 @@ const SUPABASE_URL = "https://syrabaclfultwbmoygvl.supabase.co";
 const supabaseClient = createClient(SUPABASE_URL, SUPABASE_ANON_PUBLIC);
 
 export default function ChatPage() {
-
   const [message, setMessage] = React.useState("");
   const [messageList, setMessageList] = React.useState([]);
   const goTo = useRouter();
 
-  /**
-   * O useEffect()...
-   */
+  function rtListenerMessages(setMessage) {
+    return supabaseClient
+      .from("messages")
+      .on("INSERT", (newQuote) => {
+        console.log("há uma nova mensagem", newQuote.new);
+        setMessage(newQuote.new);
+      })
+      .subscribe();
+  }
+
+  // Array trackeia possvíes alterações de estado que precisam refletir e executa o código contido
+
+  function handlerMessage(newMessage) {
+    const objMessage = {
+      // id : messageList.length;
+      from: goTo.query.username,
+      text: newMessage,
+    };
+
+    supabaseClient
+      .from("messages")
+      .insert([objMessage])
+      // ↓ O then() aqui retorna uma response da inserção feita acima.
+      .then((data) => {
+        console.log(data);
+      });
+
+    setMessage("");
+  }
+
   React.useEffect(() => {
-    console.log('useEffect')
+    console.log("useEffect");
     supabaseClient
       .from("messages")
       .select("*")
@@ -28,32 +54,14 @@ export default function ChatPage() {
       .then((supaResponse) => {
         if (supaResponse.status === 200) setMessageList(supaResponse.data);
       });
+
+    rtListenerMessages((newMessage) => {
+      // ver isso
+      setMessageList((cValue) => {
+        return [newMessage, ...cValue]
+      });
+    });
   }, []);
-  // Array trackeia possvíes alterações de estado que precisam refletir e executa o código contido
-
-  
-
-  function handlerMessage(newMessage) {
-    const objMessage = {
-      // id : messageList.length;
-      from: goTo.query.username,
-      text: newMessage
-    };
-
-    //console.log(objMessage)
-    
-    supabaseClient
-        .from("messages")
-        .insert([objMessage])
-        // ↓ O then() aqui retorna uma response da inserção feita acima.
-        .then(({ data }) => {
-          // essa o dado adicionado é retornado e já inserido no arrays com o setMessagelist()
-          setMessageList([data[0], ...messageList]);
-        });
-
-    setMessage("");
-  }
-
 
   return (
     <Box
@@ -112,7 +120,6 @@ export default function ChatPage() {
                 setMessage(event.target.value);
               }}
               onKeyPress={(event) => {
-
                 if (event.key === "Enter") {
                   event.preventDefault();
                   handlerMessage(message);
@@ -130,11 +137,13 @@ export default function ChatPage() {
               }}
             />
 
-            <BtnSendSticker onStickerClick={(chosenSticker) => {
-              //console.log(chosenSticker)
-              setMessage(":sticker: " + chosenSticker)
-            }} />
-
+            <BtnSendSticker
+              onStickerClick={(chosenSticker) => {
+                //console.log(chosenSticker)
+                handlerMessage(":sticker: " + chosenSticker); // Seta Sticker diretamente na lista
+                // setMessage(":sticker: " + chosenSticker) Seta sticker no textfield
+              }}
+            />
           </Box>
         </Box>
       </Box>
@@ -167,7 +176,6 @@ function Header() {
 }
 
 function MessageList(props) {
-
   return (
     <Box
       tag="ul"
@@ -221,16 +229,18 @@ function MessageList(props) {
                 {new Date().toLocaleDateString()}
               </Text>
             </Box>
-            {currentMessage.text.startsWith(":sticker:")? (
-              <Image 
+            {currentMessage.text.startsWith(":sticker:") ? (
+              <Image
                 src={currentMessage.text.replace(":sticker:", "")}
                 styleSheet={{
-                  width: '10%',
-                  borderRadius: '5px',
-                  padding: '10px',
+                  width: "30%",
+                  borderRadius: "5px",
+                  padding: "10px",
                 }}
-               />
-            ) : currentMessage.text }
+              />
+            ) : (
+              currentMessage.text
+            )}
           </Text>
         );
       })}

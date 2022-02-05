@@ -81,7 +81,6 @@ export function BtnSendSticker(props) {
                 onClick={() => {
                   //console.log('[DENTRO DO COMPONENTE] Clicou no sticker:', sticker);
                   if (Boolean(props.onStickerClick)) {
-                    console.log(props.onStickerClick)
                     props.onStickerClick(sticker);
                   }
                 }}
