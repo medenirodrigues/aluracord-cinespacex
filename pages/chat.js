@@ -46,7 +46,6 @@ export default function ChatPage() {
   }
 
   React.useEffect(() => {
-    console.log("useEffect");
     supabaseClient
       .from("messages")
       .select("*")

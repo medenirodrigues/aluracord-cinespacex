@@ -1,5 +1,6 @@
 import React from "react";
 import { useRouter } from "next/router";
+import NextImage from "next/image"
 
 import appConfig from "../config.json";
 import { Box, Button, Text, TextField, Image } from "@skynexui/components";
@@ -21,22 +22,35 @@ function Titulo(props) {
 }
 
 export default function LoginPage() {
-
   /***
    * através do destructuring ele cria a const username na qual ele seta a string passa no primeiro
    * momento que carrega o component, setUsername é criado e a ele é atribuido o método nativo do
    * React useState()
    */
-  const [username, setUsername] = React.useState("medenirodrigues");
+  const [username, setUsername] = React.useState();
   /**
    * useRouter() é um método para gerenciamento de rotas no Next.js... adicionar mais dados relacionados ao
    * método
    */
   const goTo = useRouter();
-  
+
   /**
    * [] Criar uma api que retorne o avatar de atores/atrizes caso o usuário ainda não esteja logado!
    */
+  function randomAvatar () {
+    const avatars = [
+      "denzel.png",
+      "gable.png",
+      "marlon-brando.png",
+      "maryl-streep.png",
+      "monroe.png",
+      "poitier.png"
+    ]
+
+    const idx = Math.floor(Math.random() * 7)
+    console.log(avatars[idx])
+    return avatars[idx]
+  }
 
   return (
     <>
@@ -74,7 +88,7 @@ export default function LoginPage() {
           {/* Formulário */}
           <Box
             as="form"
-            onSubmit={ eventInfo => {
+            onSubmit={(eventInfo) => {
               // Cancela o comportamento padrão de carregar a págino ao mudar de rota
               eventInfo.preventDefault();
               goTo.push(`/chat?username=${username}`);
@@ -103,7 +117,8 @@ export default function LoginPage() {
             <TextField
               fullWidth
               value={username}
-              onChange={event => setUsername(event.target.value)}
+              onChange={(event) => setUsername(event.target.value)}
+              placeholder="Digite aqui seu nome de usuário no github"
               textFieldColors={{
                 neutral: {
                   textColor: appConfig.theme.colors.neutrals[200],
@@ -119,9 +134,9 @@ export default function LoginPage() {
               fullWidth
               onClick={(eventClick) => {
                 if (username.length < 3) {
-                  window.alert('Insira um dado válido')
-                  eventClick.preventDefault()
-                } 
+                  window.alert("Insira um dado válido");
+                  eventClick.preventDefault();
+                }
               }}
               buttonColors={{
                 contrastColor: appConfig.theme.colors.neutrals["000"],
@@ -154,8 +169,10 @@ export default function LoginPage() {
                 borderRadius: "50%",
                 marginBottom: "16px",
               }}
-              src={`https://github.com/${username}.png`}
+              src={username === undefined? `/images/${randomAvatar()}` : `https://github.com/${username}.png`}
+              title="Digite seu usuário no github para carregar seu avatar."
             />
+            {/* <img src="/images/denzel.png" width="200px" height="200px" /> */}
             <Text
               variant="body4"
               styleSheet={{
