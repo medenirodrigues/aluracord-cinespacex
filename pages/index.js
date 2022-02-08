@@ -1,9 +1,9 @@
 import React from "react";
 import { useRouter } from "next/router";
-import NextImage from "next/image"
+import NextImage from "next/image";
 
 import appConfig from "../config.json";
-import { Box, Button, Text, TextField, Image } from "@skynexui/components";
+import { Box, Button, Text, TextField, Image, Icon } from "@skynexui/components";
 
 function Titulo(props) {
   const Tag = props.tag || "h1";
@@ -37,19 +37,19 @@ export default function LoginPage() {
   /**
    * [] Criar uma api que retorne o avatar de atores/atrizes caso o usuário ainda não esteja logado!
    */
-  function randomAvatar () {
+  function randomAvatar() {
     const avatars = [
       "denzel.png",
       "gable.png",
       "marlon-brando.png",
       "maryl-streep.png",
       "monroe.png",
-      "poitier.png"
-    ]
+      "poitier.png",
+    ];
 
-    const idx = Math.floor(Math.random() * 7)
-    console.log(avatars[idx])
-    return avatars[idx]
+    const idx = Math.floor(Math.random() * 7);
+    //console.log(avatars[idx])
+    return avatars[idx];
   }
 
   return (
@@ -57,31 +57,18 @@ export default function LoginPage() {
       <Box
         styleSheet={{
           display: "flex",
-          alignItems: "center",
           justifyContent: "center",
-          backgroundColor: appConfig.theme.colors.primary[500],
-          backgroundImage:
-            "url(https://reflectionofbcmlectures.files.wordpress.com/2013/09/old-skool-3d-cinema-audience.jpg)",
-          backgroundRepeat: "no-repeat",
-          backgroundSize: "cover",
-          backgroundBlendMode: "multiply",
         }}
       >
+        {/* Left side */}
         <Box
           styleSheet={{
             display: "flex",
             alignItems: "center",
-            justifyContent: "space-between",
-            flexDirection: {
-              xs: "column",
-              sm: "row",
-            },
-            width: "100%",
+            flexDirection: "column",
+            width: "50%",
             maxWidth: "700px",
-            borderRadius: "5px",
-            padding: "32px",
-            margin: "16px",
-            boxShadow: "0 2px 10px 0 rgb(0 0 0 / 20%)",
+            padding: "85px 70px",
             backgroundColor: appConfig.theme.colors.neutrals[700],
           }}
         >
@@ -98,95 +85,125 @@ export default function LoginPage() {
               flexDirection: "column",
               alignItems: "center",
               justifyContent: "center",
-              width: { xs: "100%", sm: "50%" },
+              width: { xs: "80%", sm: "50%" },
               textAlign: "center",
-              marginBottom: "32px",
             }}
           >
-            <Titulo tag="h2">Welcome back! ;D</Titulo>
-            <Text
-              variant="body3"
+            <Box
               styleSheet={{
-                marginBottom: "32px",
-                color: appConfig.theme.colors.neutrals[300],
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                maxWidth: "200px",
+                marginBottom: "30px",
+                padding: "16px",
+                backgroundColor: appConfig.theme.colors.neutrals[800],
+                border: "1px solid",
+                borderColor: appConfig.theme.colors.neutrals[999],
+                borderRadius: "10px",
+                flex: 1,
+                minHeight: "240px",
               }}
             >
-              {appConfig.name}
-            </Text>
-
-            <TextField
-              fullWidth
-              value={username}
-              onChange={(event) => setUsername(event.target.value)}
-              placeholder="Digite aqui seu nome de usuário no github"
-              textFieldColors={{
-                neutral: {
-                  textColor: appConfig.theme.colors.neutrals[200],
-                  mainColor: appConfig.theme.colors.neutrals[900],
-                  mainColorHighlight: appConfig.theme.colors.primary[500],
-                  backgroundColor: appConfig.theme.colors.neutrals[800],
-                },
-              }}
-            />
-            <Button
-              type="submit"
-              label="Login"
-              fullWidth
-              onClick={(eventClick) => {
-                if (username.length < 3) {
-                  window.alert("Insira um dado válido");
-                  eventClick.preventDefault();
+              <Image
+                styleSheet={{
+                  borderRadius: "50%",
+                  marginBottom: "16px",
+                }}
+                src={
+                  username === undefined
+                    ? `/images/${randomAvatar()}`
+                    : `https://github.com/${username}.png`
                 }
-              }}
-              buttonColors={{
-                contrastColor: appConfig.theme.colors.neutrals["000"],
-                mainColor: appConfig.theme.colors.primary[500],
-                mainColorLight: appConfig.theme.colors.primary[400],
-                mainColorStrong: appConfig.theme.colors.primary[600],
-              }}
-            />
+                title="Digite seu usuário no github para carregar seu avatar."
+              />
+              <Text
+                variant="body4"
+                styleSheet={{
+                  color: appConfig.theme.colors.neutrals[200],
+                  backgroundColor: appConfig.theme.colors.neutrals[900],
+                  padding: "3px 10px",
+                  borderRadius: "1000px",
+                }}
+              >
+                {username}
+              </Text>
+            </Box>
+            {/* Photo Area */}
           </Box>
-          {/* Formulário */}
+          <Titulo tag="h2">Welcome back! ;D</Titulo>
+          <Text
+            variant="body3"
+            styleSheet={{
+              marginBottom: "32px",
+              color: appConfig.theme.colors.neutrals[300],
+            }}
+          >
+            {appConfig.name}
+          </Text>
 
-          {/* Photo Area */}
+          <TextField
+            value={username}
+            onChange={(event) => setUsername(event.target.value)}
+            placeholder="Digite aqui seu nome de usuário no github"
+            styleSheet={{
+              width: "60%",
+            }}
+            textFieldColors={{
+              neutral: {
+                textColor: appConfig.theme.colors.neutrals[200],
+                mainColor: appConfig.theme.colors.neutrals[900],
+                mainColorHighlight: appConfig.theme.colors.primary[500],
+                backgroundColor: appConfig.theme.colors.neutrals[800],
+              },
+            }}
+          />
+          <Button
+            type="submit"
+            label="Login"
+            styleSheet={{
+              width: "60%",
+            }}
+            onClick={(eventClick) => {
+              if (username.length < 3) {
+                window.alert("Insira um dado válido");
+                eventClick.preventDefault();
+              }
+            }}
+            buttonColors={{
+              contrastColor: appConfig.theme.colors.neutrals["000"],
+              mainColor: appConfig.theme.colors.primary[500],
+              mainColorLight: appConfig.theme.colors.primary[400],
+              mainColorStrong: appConfig.theme.colors.primary[600],
+            }}
+          />
           <Box
+            tag="ul"
             styleSheet={{
               display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              maxWidth: "200px",
-              padding: "16px",
-              backgroundColor: appConfig.theme.colors.neutrals[800],
-              border: "1px solid",
-              borderColor: appConfig.theme.colors.neutrals[999],
-              borderRadius: "10px",
-              flex: 1,
-              minHeight: "240px",
             }}
           >
-            <Image
-              styleSheet={{
-                borderRadius: "50%",
-                marginBottom: "16px",
-              }}
-              src={username === undefined? `/images/${randomAvatar()}` : `https://github.com/${username}.png`}
-              title="Digite seu usuário no github para carregar seu avatar."
-            />
-            {/* <img src="/images/denzel.png" width="200px" height="200px" /> */}
-            <Text
-              variant="body4"
-              styleSheet={{
-                color: appConfig.theme.colors.neutrals[200],
-                backgroundColor: appConfig.theme.colors.neutrals[900],
-                padding: "3px 10px",
-                borderRadius: "1000px",
-              }}
-            >
-              {username}
+            <Text styleSheet={{}} tag="li" variant="body4">
+              <Icon label="" name="FaGithub" size="3.5ch" />
             </Text>
           </Box>
-          {/* Photo Area */}
         </Box>
+        {/* Right side */}
+        <Box
+          styleSheet={{
+            display: {
+              //  xs: "none",
+              //  sm: "none",
+            },
+            alignItems: "center",
+            justifyContent: "center",
+            width: "50%",
+            backgroundImage:
+              "url(https://reflectionofbcmlectures.files.wordpress.com/2013/09/old-skool-3d-cinema-audience.jpg)",
+            backgroundRepeat: "no-repeat",
+            backgroundSize: "cover",
+          }}
+        ></Box>
       </Box>
     </>
   );
