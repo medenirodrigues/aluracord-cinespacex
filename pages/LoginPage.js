@@ -1,6 +1,5 @@
 import React from "react";
 import { useRouter } from "next/router";
-import NextImage from "next/image";
 
 import appConfig from "../config.json";
 import { Box, Button, Text, TextField, Image, Icon } from "@skynexui/components";
@@ -53,6 +52,7 @@ export default function LoginPage() {
   }
 
   return (
+    // Adicionar Div geral 
     <>
       <Box
         styleSheet={{
