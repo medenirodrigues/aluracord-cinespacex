@@ -2,7 +2,15 @@ import React from "react";
 import { useRouter } from "next/router";
 
 import appConfig from "../config.json";
-import { Box, Button, Text, TextField, Image, Icon } from "@skynexui/components";
+import {
+  Box,
+  Button,
+  Text,
+  TextField,
+  Image,
+  Icon,
+} from "@skynexui/components";
+import LoginForm from "./components/LoginForm";
 
 function Titulo(props) {
   const Tag = props.tag || "h1";
@@ -52,7 +60,7 @@ export default function LoginPage() {
   }
 
   return (
-    // Adicionar Div geral 
+    // Adicionar Div geral
     <>
       <Box
         styleSheet={{
@@ -89,7 +97,19 @@ export default function LoginPage() {
               textAlign: "center",
             }}
           >
-            <Box
+            <Text
+              variant="body4"
+              styleSheet={{
+                color: appConfig.theme.colors.neutrals[200],
+                backgroundColor: appConfig.theme.colors.neutrals[900],
+                padding: "3px 10px",
+                borderRadius: "1000px",
+              }}
+            >
+              {username}
+            </Text>
+            {/* Photo Area */}
+            {/* <Box
               styleSheet={{
                 display: "flex",
                 flexDirection: "column",
@@ -115,22 +135,24 @@ export default function LoginPage() {
                     ? `/images/${randomAvatar()}`
                     : `https://github.com/${username}.png`
                 }
-                title="Digite seu usuário no github para carregar seu avatar."
-              />
-              <Text
-                variant="body4"
-                styleSheet={{
-                  color: appConfig.theme.colors.neutrals[200],
-                  backgroundColor: appConfig.theme.colors.neutrals[900],
-                  padding: "3px 10px",
-                  borderRadius: "1000px",
-                }}
-              >
-                {username}
-              </Text>
-            </Box>
+                
+              /> 
+            </Box> */}
             {/* Photo Area */}
           </Box>
+          
+          <LoginForm
+            placeholder="Usuário github"
+            value={username}
+            title="Digite seu usuário no github para carregar seu avatar."
+            onchange={(event) => setUsername(event.target.value)}
+            src={
+              username === undefined
+                ? `/images/${randomAvatar()}`
+                : `https://github.com/${username}.png`
+            }
+          />
+          
           <Titulo tag="h2">Welcome back! ;D</Titulo>
           <Text
             variant="body3"
@@ -145,7 +167,7 @@ export default function LoginPage() {
           <TextField
             value={username}
             onChange={(event) => setUsername(event.target.value)}
-            placeholder="Digite aqui seu nome de usuário no github"
+            // placeholder="Digite aqui seu nome de usuário no github"
             styleSheet={{
               width: "60%",
             }}
