@@ -11,6 +11,33 @@ import {
   Icon,
 } from "@skynexui/components";
 import LoginForm from "./components/LoginForm";
+import styled from "styled-components";
+
+const BackgroundWrapper = styled.div`
+  display: flex;
+  align-items: left;
+  background-image: url(https://reflectionofbcmlectures.files.wordpress.com/2013/09/old-skool-3d-cinema-audience.jpg);
+  width: 50%;
+  height: 100vh;
+  background-repeat: no-repeat;
+  background-size: cover;
+`;
+const CardForm = styled.div`
+  display: flex;
+  align-items: center;
+  margin-top: 2.4%;
+  flex-direction: column;
+  width: 50%;
+  height: 90%;
+  border-top-right-radius: 15px;
+  border-bottom-right-radius: 15px;
+  vertical-align: middle;
+  max-width: 700px;
+  padding: 85px 70px;
+  background-color: ${appConfig.theme.colors.primary["500"]};
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 20px 25px -5px,
+    rgba(0, 0, 0, 0.04) 0px 10px 10px -5px;
+`;
 
 function Titulo(props) {
   const Tag = props.tag || "h1";
@@ -62,25 +89,18 @@ export default function LoginPage() {
   return (
     // Adicionar Div geral
     <>
-      <Box
-        styleSheet={{
-          display: "flex",
-          justifyContent: "center",
-        }}
-      >
-        {/* Left side */}
-        <Box
-          styleSheet={{
-            display: "flex",
-            alignItems: "center",
-            flexDirection: "column",
-            width: "50%",
-            maxWidth: "700px",
-            padding: "85px 70px",
-            backgroundColor: appConfig.theme.colors.neutrals[700],
-          }}
-        >
-          {/* Formulário */}
+      <BackgroundWrapper>
+        <CardForm>
+          <Text
+            variant="body3"
+            styleSheet={{
+              marginBottom: "32px",
+              color: appConfig.theme.colors.neutrals[300],
+            }}
+          >
+            {appConfig.name}
+          </Text>
+          <Titulo tag="h2">Welcome back! ;D</Titulo>
           <Box
             as="form"
             onSubmit={(eventInfo) => {
@@ -140,31 +160,28 @@ export default function LoginPage() {
             </Box> */}
             {/* Photo Area */}
           </Box>
-          
+
           <LoginForm
-            placeholder="Usuário github"
-            value={username}
+            placeholder="Digite seu usuário github"
+            textValue={username}
+            btnLabel="Login"
             title="Digite seu usuário no github para carregar seu avatar."
             onchange={(event) => setUsername(event.target.value)}
+            onclick={(eventClick) => {
+              console.log("entrei", username);
+              if (username.length < 3) {
+                window.alert("Insira um dado válido");
+                eventClick.preventDefault();
+              }
+            }}
             src={
               username === undefined
                 ? `/images/${randomAvatar()}`
                 : `https://github.com/${username}.png`
             }
           />
-          
-          <Titulo tag="h2">Welcome back! ;D</Titulo>
-          <Text
-            variant="body3"
-            styleSheet={{
-              marginBottom: "32px",
-              color: appConfig.theme.colors.neutrals[300],
-            }}
-          >
-            {appConfig.name}
-          </Text>
 
-          <TextField
+          {/* <TextField
             value={username}
             onChange={(event) => setUsername(event.target.value)}
             // placeholder="Digite aqui seu nome de usuário no github"
@@ -198,35 +215,9 @@ export default function LoginPage() {
               mainColorLight: appConfig.theme.colors.primary[400],
               mainColorStrong: appConfig.theme.colors.primary[600],
             }}
-          />
-          <Box
-            tag="ul"
-            styleSheet={{
-              display: "flex",
-            }}
-          >
-            <Text styleSheet={{}} tag="li" variant="body4">
-              <Icon label="" name="FaGithub" size="3.5ch" />
-            </Text>
-          </Box>
-        </Box>
-        {/* Right side */}
-        <Box
-          styleSheet={{
-            display: {
-              //  xs: "none",
-              //  sm: "none",
-            },
-            alignItems: "center",
-            justifyContent: "center",
-            width: "50%",
-            backgroundImage:
-              "url(https://reflectionofbcmlectures.files.wordpress.com/2013/09/old-skool-3d-cinema-audience.jpg)",
-            backgroundRepeat: "no-repeat",
-            backgroundSize: "cover",
-          }}
-        ></Box>
-      </Box>
+          /> */}
+        </CardForm>
+      </BackgroundWrapper>
     </>
   );
 }
