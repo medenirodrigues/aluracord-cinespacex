@@ -2,13 +2,99 @@ import { Box, Text, TextField, Image, Button } from "@skynexui/components";
 import React from "react";
 import appConfig from "../config.json";
 import { useRouter } from "next/router";
-import { BtnSendSticker } from "./src/components/BtnSendSticker";
+import { BtnSendSticker } from "./components/BtnSendSticker";
 import { createClient, SupabaseClient } from "@supabase/supabase-js";
+
+import { BackgroundWrapper } from "./index";
+import styled from "styled-components";
 
 const SUPABASE_ANON_PUBLIC =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiIsImlhdCI6MTY0MzU1MjA1NCwiZXhwIjoxOTU5MTI4MDU0fQ.jOFoJHkM3QZ-90MtskDLQpQGLjyEbXP_BBTgYxT9z1o";
 const SUPABASE_URL = "https://syrabaclfultwbmoygvl.supabase.co";
 const supabaseClient = createClient(SUPABASE_URL, SUPABASE_ANON_PUBLIC);
+
+// ------------------- CSS ↓ -----------------------
+const ChatBgWrapper = styled(BackgroundWrapper)`
+  background-blend-mode: multiply;
+  color: ${appConfig.theme.colors.neutrals["000"]};
+  background-color: ${appConfig.theme.colors.primary["500"]};
+`;
+
+const ChatBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  box-shadow: 0 2px 10px 0 rgb(0 0 0 / 20%);
+  border-radius: 5px;
+  background-color: ${appConfig.theme.colors.neutrals["700"]};
+  height: 100%;
+  max-width: 30%;
+  max-height: 80vh;
+  padding: 15px;
+`;
+
+const ChatHeader = styled.div`
+  width: 100%;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+`;
+
+const ChatForm = styled.form`
+  display: flex;
+  align-items: center;
+`;
+
+const MsgBox = styled.div`
+  position: relative;
+  display: flex;
+  flex: 1;
+  height: 80%;
+  background-color: ${appConfig.theme.colors.neutrals["600"]};
+  flex-direction: column;
+  border-radius: 5px;
+  padding: 16px;
+`;
+
+const MsgListUl = styled.ul`
+  overflow: scroll;
+  display: flex;
+  flex-direction: column-reverse;
+  flex: 1;
+  color: ${appConfig.theme.colors.neutrals["000"]};
+  margin-bottom: 16px;
+
+  &::-webkit-scrollbar {
+    width: 10px; /* width of the entire scrollbar */
+  }
+  &::-webkit-scrollbar-track {
+    background: ${appConfig.theme.colors.neutrals[
+      "700"
+    ]}; /* color of the tracking area */
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: ${appConfig.theme.colors.neutrals[
+      "600"
+    ]}; /* color of the scroll thumb */
+    border-radius: 20px; /* roundness of the scroll thumb */
+    border: 3px solid ${appConfig.theme.colors.neutrals["800"]}; /* creates padding around scroll thumb */
+  }
+`;
+
+const ChatTextField = styled.input`
+  width: 100%;
+  height: 50px;
+  border: 0;
+  resize: none;
+  border-radius: 6px;
+  padding: 0px 0px 20px 5px;
+  background-color: ${appConfig.theme.colors.neutrals["800"]};
+  margin-right: 14px;
+  color: ${appConfig.theme.colors.neutrals["200"]};
+`;
+
+// ------------------- CSS ↑ -----------------------
 
 export default function ChatPage() {
   const [message, setMessage] = React.useState("");
@@ -57,61 +143,28 @@ export default function ChatPage() {
     rtListenerMessages((newMessage) => {
       // ver isso
       setMessageList((cValue) => {
-        return [newMessage, ...cValue]
+        return [newMessage, ...cValue];
       });
     });
   }, []);
 
   return (
-    <Box
-      styleSheet={{
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        backgroundColor: appConfig.theme.colors.primary[500],
-        backgroundImage: `url(https://reflectionofbcmlectures.files.wordpress.com/2013/09/old-skool-3d-cinema-audience.jpg)`,
-        backgroundRepeat: "no-repeat",
-        backgroundSize: "cover",
-        backgroundBlendMode: "multiply",
-        color: appConfig.theme.colors.neutrals["000"],
-      }}
-    >
-      <Box
-        styleSheet={{
-          display: "flex",
-          flexDirection: "column",
-          flex: 1,
-          boxShadow: "0 2px 10px 0 rgb(0 0 0 / 20%)",
-          borderRadius: "5px",
-          backgroundColor: appConfig.theme.colors.neutrals[700],
-          height: "100%",
-          maxWidth: "95%",
-          maxHeight: "95vh",
-          padding: "32px",
-        }}
-      >
-        <Header />
-        <Box
-          styleSheet={{
-            position: "relative",
-            display: "flex",
-            flex: 1,
-            height: "80%",
-            backgroundColor: appConfig.theme.colors.neutrals[600],
-            flexDirection: "column",
-            borderRadius: "5px",
-            padding: "16px",
-          }}
-        >
+    <ChatBgWrapper>
+      {/* Chat ↓ */}
+      <ChatBox>
+        <ChatHeader>
+          <Text variant="heading5">Chat</Text>
+          <Button
+            variant="tertiary"
+            colorVariant="neutral"
+            label="Logout"
+            href="/"
+          />
+        </ChatHeader>
+        <MsgBox>
           <MessageList messages={messageList} />
-          <Box
-            as="form"
-            styleSheet={{
-              display: "flex",
-              alignItems: "center",
-            }}
-          >
-            <TextField
+          <ChatForm as="form">
+            <ChatTextField
               placeholder="Insira sua mensagem aqui..."
               type="textarea"
               value={message}
@@ -124,18 +177,7 @@ export default function ChatPage() {
                   handlerMessage(message);
                 }
               }}
-              styleSheet={{
-                width: "100%",
-                border: "0",
-                resize: "none",
-                borderRadius: "5px",
-                padding: "6px 8px",
-                backgroundColor: appConfig.theme.colors.neutrals[800],
-                marginRight: "12px",
-                color: appConfig.theme.colors.neutrals[200],
-              }}
             />
-
             <BtnSendSticker
               onStickerClick={(chosenSticker) => {
                 //console.log(chosenSticker)
@@ -143,50 +185,16 @@ export default function ChatPage() {
                 // setMessage(":sticker: " + chosenSticker) Seta sticker no textfield
               }}
             />
-          </Box>
-        </Box>
-      </Box>
-    </Box>
-  );
-}
-
-function Header() {
-  return (
-    <>
-      <Box
-        styleSheet={{
-          width: "100%",
-          marginBottom: "16px",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-        }}
-      >
-        <Text variant="heading5">Chat</Text>
-        <Button
-          variant="tertiary"
-          colorVariant="neutral"
-          label="Logout"
-          href="/"
-        />
-      </Box>
-    </>
+          </ChatForm>
+        </MsgBox>
+      </ChatBox>
+    </ChatBgWrapper>
   );
 }
 
 function MessageList(props) {
   return (
-    <Box
-      tag="ul"
-      styleSheet={{
-        overflow: "scroll",
-        display: "flex",
-        flexDirection: "column-reverse",
-        flex: 1,
-        color: appConfig.theme.colors.neutrals["000"],
-        marginBottom: "16px",
-      }}
-    >
+    <MsgListUl>
       {props.messages.map((currentMessage) => {
         return (
           <Text
@@ -243,6 +251,6 @@ function MessageList(props) {
           </Text>
         );
       })}
-    </Box>
+    </MsgListUl>
   );
 }

@@ -2,30 +2,23 @@ import React from "react";
 import { useRouter } from "next/router";
 
 import appConfig from "../config.json";
-import {
-  Box,
-  Button,
-  Text,
-  TextField,
-  Image,
-  Icon,
-} from "@skynexui/components";
 import LoginForm from "./components/LoginForm";
 import styled from "styled-components";
 
-const BackgroundWrapper = styled.div`
+export const BackgroundWrapper = styled.div`
   display: flex;
-  align-items: left;
+  justify-content: flex-start; // main axis
+  align-items: center;  // cross axis
   background-image: url(https://reflectionofbcmlectures.files.wordpress.com/2013/09/old-skool-3d-cinema-audience.jpg);
-  width: 50%;
+  width: 100%;
   height: 100vh;
   background-repeat: no-repeat;
   background-size: cover;
 `;
+
 const CardForm = styled.div`
   display: flex;
-  align-items: center;
-  margin-top: 2.4%;
+  align-items: center; // main axis is the transversal axis, you flex-direction is column
   flex-direction: column;
   width: 50%;
   height: 90%;
@@ -39,21 +32,45 @@ const CardForm = styled.div`
     rgba(0, 0, 0, 0.04) 0px 10px 10px -5px;
 `;
 
-function Titulo(props) {
-  const Tag = props.tag || "h1";
-  return (
-    <>
-      <Tag>{props.children}</Tag>
-      <style jsx>{`
-        ${Tag} {
-          color: ${appConfig.theme.colors.neutrals["000"]};
-          font-size: 24px;
-          font-weight: 600;
-        }
-      `}</style>
-    </>
-  );
-}
+const Form = styled.form`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: {
+    xs: 80%;
+    sm: 50%;
+  }
+  text-align: center;
+`;
+
+const LogoTitle = styled.h2`
+  color: ${appConfig.theme.colors.neutrals["000"]};
+  font-size: small;
+  margin-bottom: 10px;
+`;
+
+const Greetings = styled.h3`
+  color: ${appConfig.theme.colors.neutrals["000"]};
+  font-size: medium;
+  margin-bottom: 20px;
+`;
+
+// function Titulo(props) {
+//   const Tag = props.tag || "h1";
+//   return (
+//     <>
+//       <Tag>{props.children}</Tag>
+//       <style jsx>{`
+//         ${Tag} {
+//           color: ${appConfig.theme.colors.neutrals["000"]};
+//           font-size: 24px;
+//           font-weight: 600;
+//         }
+//       `}</style>
+//     </>
+//   );
+// }
 
 export default function LoginPage() {
   /***
@@ -82,140 +99,42 @@ export default function LoginPage() {
     ];
 
     const idx = Math.floor(Math.random() * 7);
-    //console.log(avatars[idx])
     return avatars[idx];
   }
 
   return (
-    // Adicionar Div geral
     <>
       <BackgroundWrapper>
         <CardForm>
-          <Text
-            variant="body3"
-            styleSheet={{
-              marginBottom: "32px",
-              color: appConfig.theme.colors.neutrals[300],
-            }}
-          >
-            {appConfig.name}
-          </Text>
-          <Titulo tag="h2">Welcome back! ;D</Titulo>
-          <Box
+          <LogoTitle>{appConfig.name}</LogoTitle>
+          <Greetings>Welcome back {username} ;D</Greetings>
+          <Form
             as="form"
             onSubmit={(eventInfo) => {
               // Cancela o comportamento padrão de carregar a págino ao mudar de rota
               eventInfo.preventDefault();
               goTo.push(`/chat?username=${username}`);
             }}
-            styleSheet={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              justifyContent: "center",
-              width: { xs: "80%", sm: "50%" },
-              textAlign: "center",
-            }}
           >
-            <Text
-              variant="body4"
-              styleSheet={{
-                color: appConfig.theme.colors.neutrals[200],
-                backgroundColor: appConfig.theme.colors.neutrals[900],
-                padding: "3px 10px",
-                borderRadius: "1000px",
-              }}
-            >
-              {username}
-            </Text>
-            {/* Photo Area */}
-            {/* <Box
-              styleSheet={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                maxWidth: "200px",
-                marginBottom: "30px",
-                padding: "16px",
-                backgroundColor: appConfig.theme.colors.neutrals[800],
-                border: "1px solid",
-                borderColor: appConfig.theme.colors.neutrals[999],
-                borderRadius: "10px",
-                flex: 1,
-                minHeight: "240px",
-              }}
-            >
-              <Image
-                styleSheet={{
-                  borderRadius: "50%",
-                  marginBottom: "16px",
-                }}
-                src={
-                  username === undefined
-                    ? `/images/${randomAvatar()}`
-                    : `https://github.com/${username}.png`
+            <LoginForm
+              placeholder="Digite seu usuário github"
+              textValue={username}
+              btnLabel="Login"
+              title="Digite seu usuário no github para carregar seu avatar."
+              onchange={(event) => setUsername(event.target.value)}
+              onclick={(eventClick) => {
+                if (username.length < 3) {
+                  window.alert("Insira um dado válido");
+                  eventClick.preventDefault();
                 }
-                
-              /> 
-            </Box> */}
-            {/* Photo Area */}
-          </Box>
-
-          <LoginForm
-            placeholder="Digite seu usuário github"
-            textValue={username}
-            btnLabel="Login"
-            title="Digite seu usuário no github para carregar seu avatar."
-            onchange={(event) => setUsername(event.target.value)}
-            onclick={(eventClick) => {
-              console.log("entrei", username);
-              if (username.length < 3) {
-                window.alert("Insira um dado válido");
-                eventClick.preventDefault();
+              }}
+              src={
+                username === undefined
+                  ? `/images/${randomAvatar()}`
+                  : `https://github.com/${username}.png`
               }
-            }}
-            src={
-              username === undefined
-                ? `/images/${randomAvatar()}`
-                : `https://github.com/${username}.png`
-            }
-          />
-
-          {/* <TextField
-            value={username}
-            onChange={(event) => setUsername(event.target.value)}
-            // placeholder="Digite aqui seu nome de usuário no github"
-            styleSheet={{
-              width: "60%",
-            }}
-            textFieldColors={{
-              neutral: {
-                textColor: appConfig.theme.colors.neutrals[200],
-                mainColor: appConfig.theme.colors.neutrals[900],
-                mainColorHighlight: appConfig.theme.colors.primary[500],
-                backgroundColor: appConfig.theme.colors.neutrals[800],
-              },
-            }}
-          />
-          <Button
-            type="submit"
-            label="Login"
-            styleSheet={{
-              width: "60%",
-            }}
-            onClick={(eventClick) => {
-              if (username.length < 3) {
-                window.alert("Insira um dado válido");
-                eventClick.preventDefault();
-              }
-            }}
-            buttonColors={{
-              contrastColor: appConfig.theme.colors.neutrals["000"],
-              mainColor: appConfig.theme.colors.primary[500],
-              mainColorLight: appConfig.theme.colors.primary[400],
-              mainColorStrong: appConfig.theme.colors.primary[600],
-            }}
-          /> */}
+            />
+          </Form>
         </CardForm>
       </BackgroundWrapper>
     </>
