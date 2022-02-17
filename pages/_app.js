@@ -1,7 +1,4 @@
 import React from "react";
-import { useEffect } from "react";
-//import bootstrap from "bootstrap/dist/js/bootstrap";
-//import { popper } from "@popperjs/core";
 
 function GlobalStyle() {
   return (
@@ -42,10 +39,6 @@ function GlobalStyle() {
  * e o next faz todo o resto.
  */
 export default function CustomApp({ Component, pageProps }) {
-  // useEffect(() => {
-  //   import("bootstrap/dist/js/bootstrap");
-
-  // }, [])
   return (
     <>
       <GlobalStyle />

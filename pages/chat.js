@@ -4,6 +4,7 @@ import appConfig from "../config.json";
 import { useRouter } from "next/router";
 import { BtnSendSticker } from "./components/BtnSendSticker";
 import { createClient, SupabaseClient } from "@supabase/supabase-js";
+//import bootstrap from "./globalBootstrap";
 
 import { BackgroundWrapper } from "./index";
 import styled from "styled-components";
@@ -14,8 +15,13 @@ const SUPABASE_URL = "https://syrabaclfultwbmoygvl.supabase.co";
 const supabaseClient = createClient(SUPABASE_URL, SUPABASE_ANON_PUBLIC);
 
 // ------------------- CSS ↓ -----------------------
-const ChatBgWrapper = styled(BackgroundWrapper)`
+const ChatBgWrapper = styled.div`
+  width: 100%;
+  height: 100vh;
+  background-repeat: no-repeat;
+  background-size: cover;
   background-blend-mode: multiply;
+  background-image: url(https://reflectionofbcmlectures.files.wordpress.com/2013/09/old-skool-3d-cinema-audience.jpg);
   color: ${appConfig.theme.colors.neutrals["000"]};
   background-color: ${appConfig.theme.colors.primary["500"]};
 `;
@@ -146,7 +152,6 @@ export default function ChatPage() {
   }
 
   // Array trackeia possvíes alterações de estado que precisam refletir e executa o código contido
-
   function handlerMessage(newMessage) {
     const objMessage = {
       // id : messageList.length;
@@ -185,9 +190,9 @@ export default function ChatPage() {
   return (
     <ChatBgWrapper>
       {/* Chat ↓ */}
-      <ChatBox>
+      <ChatBox className="">
         <ChatHeader>
-          <h4>Chat</h4>
+          <h6>Chat</h6>
           <Button
             variant="tertiary"
             colorVariant="neutral"
@@ -232,7 +237,6 @@ function MessageList(props) {
       {props.messages.map((currentMessage) => {
         return (
           <MsgListLi key={currentMessage.id}>
-            
             <LiHeader>
               <LiImg src={`https://github.com/${currentMessage.from}.png`} />
               <Text tag="strong">{currentMessage.from}</Text>
@@ -244,7 +248,6 @@ function MessageList(props) {
             ) : (
               currentMessage.text
             )}
-
           </MsgListLi>
         );
       })}

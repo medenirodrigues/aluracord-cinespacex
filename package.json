@@ -1,8 +1,7 @@
 {
   "name": "aluracord",
   "version": "1.0.0",
-  "main": "index.js",
-  "typings": "index.js",
+  "main": "index",
   "license": "MIT",
   "dependencies": {
     "@popperjs/core": "^2.11.2",

@@ -1,8 +1,3 @@
-import bootstrap from "../node_modules/bootstrap/dist/css/bootstrap";
-import bootstrapJS from "../node_modules/bootstrap/dist/js/bootstrap"
-import { popper } from "@popperjs/core";
+import bootstrap from "../node_modules/bootstrap/dist/css/bootstrap.min.css"
 
-export default {
-    bootstrap,
-    bootstrapJS
-}
+export default bootstrap
