@@ -4,15 +4,16 @@ import appConfig from "../config.json";
 import { useRouter } from "next/router";
 import { BtnSendSticker } from "./components/BtnSendSticker";
 import { createClient, SupabaseClient } from "@supabase/supabase-js";
+import { sbClient } from "../services/supabase.api";
 //import bootstrap from "./globalBootstrap";
 
 import { BackgroundWrapper } from "./index";
 import styled from "styled-components";
 
-const SUPABASE_ANON_PUBLIC =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiIsImlhdCI6MTY0MzU1MjA1NCwiZXhwIjoxOTU5MTI4MDU0fQ.jOFoJHkM3QZ-90MtskDLQpQGLjyEbXP_BBTgYxT9z1o";
-const SUPABASE_URL = "https://syrabaclfultwbmoygvl.supabase.co";
-const supabaseClient = createClient(SUPABASE_URL, SUPABASE_ANON_PUBLIC);
+// const SUPABASE_ANON_PUBLIC =
+//   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiIsImlhdCI6MTY0MzU1MjA1NCwiZXhwIjoxOTU5MTI4MDU0fQ.jOFoJHkM3QZ-90MtskDLQpQGLjyEbXP_BBTgYxT9z1o";
+// const SUPABASE_URL = "https://syrabaclfultwbmoygvl.supabase.co";
+// const supabaseClient = createClient(SUPABASE_URL, SUPABASE_ANON_PUBLIC);
 
 // ------------------- CSS ↓ -----------------------
 const ChatBgWrapper = styled.div`
@@ -142,7 +143,7 @@ export default function ChatPage() {
   const goTo = useRouter();
 
   function rtListenerMessages(setMessage) {
-    return supabaseClient
+    return sbClient
       .from("messages")
       .on("INSERT", (newQuote) => {
         console.log("há uma nova mensagem", newQuote.new);
@@ -159,7 +160,7 @@ export default function ChatPage() {
       text: newMessage,
     };
 
-    supabaseClient
+    sbClient
       .from("messages")
       .insert([objMessage])
       // ↓ O then() aqui retorna uma response da inserção feita acima.
@@ -171,7 +172,7 @@ export default function ChatPage() {
   }
 
   React.useEffect(() => {
-    supabaseClient
+    sbClient
       .from("messages")
       .select("*")
       .order("id", { acending: false })
