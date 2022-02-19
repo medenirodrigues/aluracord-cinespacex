@@ -1,10 +1,13 @@
-import { Box, Text, TextField, Image, Button } from "@skynexui/components";
+import { Text, Button } from "@skynexui/components";
 import React from "react";
 import appConfig from "../config.json";
 import { useRouter } from "next/router";
 import { BtnSendSticker } from "./components/BtnSendSticker";
-//import { createClient, SupabaseClient } from "@supabase/supabase-js";
-import { returnedDtMessages, rtListenerMessages, orderList } from "../services/supabase.api";
+import {
+  returnedDtMessages,
+  rtListenerMessages,
+  orderList,
+} from "../services/supabase.api";
 //import bootstrap from "./globalBootstrap";
 
 import { BackgroundWrapper } from "./index";
@@ -137,17 +140,7 @@ export default function ChatPage() {
   const [messageList, setMessageList] = React.useState([]);
   const goTo = useRouter();
 
-  // function rtListenerMessages(setMessage) {
-  //   return sbClient
-  //     .from("messages")
-  //     .on("INSERT", (newQuote) => {
-  //       console.log("há uma nova mensagem", newQuote.new);
-  //       setMessage(newQuote.new);
-  //     })
-  //     .subscribe();
-  // }
-
-    rtListenerMessages(setMessage);
+  rtListenerMessages(setMessage);
 
   // Array trackeia possvíes alterações de estado que precisam refletir e executa o código contido
   function handlerMessage(newMessage) {
@@ -157,28 +150,18 @@ export default function ChatPage() {
       text: newMessage,
     };
 
-    returnedDtMessages([objMessage])
-
-    // sbClient
-    //   .from("messages")
-    //   .insert([objMessage])
-    //   // ↓ O then() aqui retorna uma response da inserção feita acima.
-    //   .then((data) => {
-    //     console.log(data);
-    //   });
-
+    returnedDtMessages([objMessage]);
     setMessage("");
   }
 
   React.useEffect(() => {
-    orderList(setMessageList)
+    orderList(setMessageList);
     rtListenerMessages((newMessage) => {
       // ver isso
       setMessageList((cValue) => {
         return [newMessage, ...cValue];
       });
     });
-  
   }, []);
 
   return (
