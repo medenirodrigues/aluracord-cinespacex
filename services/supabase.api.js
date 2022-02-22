@@ -1,32 +1,34 @@
-import { createClient, SupabaseClient } from "@supabase/supabase-js";
+import { createClient } from "@supabase/supabase-js";
 
 const SUPABASE_ANON_PUBLIC =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiIsImlhdCI6MTY0MzU1MjA1NCwiZXhwIjoxOTU5MTI4MDU0fQ.jOFoJHkM3QZ-90MtskDLQpQGLjyEbXP_BBTgYxT9z1o";
 const SUPABASE_URL = "https://syrabaclfultwbmoygvl.supabase.co";
 const sbClient = createClient(SUPABASE_URL, SUPABASE_ANON_PUBLIC);
 
-function rtListenerMessages(setMessage) {
+function listenerMessages(setMessage) {
   return sbClient
     .from("messages")
     .on("INSERT", (newQuote) => {
-      console.log("há uma nova mensagem", newQuote.new);
-      setMessage(newQuote.new);
+      console.log(newQuote.new.text)
+      //console.log("há uma nova mensagem", newQuote.new.text);
+      setMessage(newQuote.new.text);
     })
     .subscribe();
 }
 
-function returnedDtMessages(objMessage) {
+//This func is used to insert the object created at "handlerMsg" func
+function returnedDtMessages(objMsg) {
   sbClient
     .from("messages")
-    .insert(objMessage)
-    // ↓ O then() aqui retorna uma response da inserção feita acima.
+    .insert(objMsg)
+    // ↓ The then() return a response from insertion created above.
     .then((data) => {
-      console.log(data);
+      console.log("Dado retornado da inserção", data);
     });
 }
 
 /*
-  Order the messages and set reponse data on the front
+  This func is called in UseEffect
 */
 function orderList(setMessageList) {
   sbClient
@@ -34,12 +36,13 @@ function orderList(setMessageList) {
     .select("*")
     .order("id", { acending: false })
     .then((supaResponse) => {
+      //console.log(supaResponse)
       if (supaResponse.status === 200) setMessageList(supaResponse.data);
     });
 }
 
 export {
-  rtListenerMessages,
+  listenerMessages,
   returnedDtMessages,
   orderList,
 };

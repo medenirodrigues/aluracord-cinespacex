@@ -55,7 +55,7 @@ export default function LoginForm({
   btnLabel,
   onclick,
 }) {
-  console.log(btnLabel)
+  //console.log(btnLabel)
   return (
     <>
       <SecWrap>

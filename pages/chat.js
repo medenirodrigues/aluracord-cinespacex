@@ -2,16 +2,15 @@ import { Text, Button } from "@skynexui/components";
 import React from "react";
 import appConfig from "../config.json";
 import { useRouter } from "next/router";
+import styled from "styled-components";
 import { BtnSendSticker } from "./components/BtnSendSticker";
+import { MessageList } from "./components/MessageList";
 import {
   returnedDtMessages,
-  rtListenerMessages,
+  listenerMessages,
   orderList,
 } from "../services/supabase.api";
 //import bootstrap from "./globalBootstrap";
-
-import { BackgroundWrapper } from "./index";
-import styled from "styled-components";
 
 // ------------------- CSS ↓ -----------------------
 const ChatBgWrapper = styled.div`
@@ -24,7 +23,6 @@ const ChatBgWrapper = styled.div`
   color: ${appConfig.theme.colors.neutrals["000"]};
   background-color: ${appConfig.theme.colors.primary["500"]};
 `;
-
 const ChatBox = styled.div`
   display: flex;
   flex-direction: column;
@@ -37,7 +35,6 @@ const ChatBox = styled.div`
   max-height: 80vh;
   padding: 15px;
 `;
-
 const ChatHeader = styled.div`
   width: 100%;
   margin-bottom: 16px;
@@ -45,12 +42,10 @@ const ChatHeader = styled.div`
   align-items: center;
   justify-content: space-between;
 `;
-
 const ChatForm = styled.form`
   display: flex;
   align-items: center;
 `;
-
 const MsgBox = styled.div`
   position: relative;
   display: flex;
@@ -61,60 +56,6 @@ const MsgBox = styled.div`
   border-radius: 5px;
   padding: 16px;
 `;
-
-const MsgListUl = styled.ul`
-  overflow: scroll;
-  display: flex;
-  flex-direction: column-reverse;
-  flex: 1;
-  color: ${appConfig.theme.colors.neutrals["000"]};
-  margin-bottom: 16px;
-
-  &::-webkit-scrollbar {
-    width: 10px; /* width of the entire scrollbar */
-  }
-  &::-webkit-scrollbar-track {
-    background: ${appConfig.theme.colors.neutrals[
-      "700"
-    ]}; /* color of the tracking area */
-  }
-  &::-webkit-scrollbar-thumb {
-    background-color: ${appConfig.theme.colors.neutrals[
-      "600"
-    ]}; /* color of the scroll thumb */
-    border-radius: 20px; /* roundness of the scroll thumb */
-    border: 3px solid ${appConfig.theme.colors.neutrals["800"]}; /* creates padding around scroll thumb */
-  }
-`;
-
-const MsgListLi = styled.li`
-  border-radius: 5px;
-  padding: 6px;
-  margin-bottom: 12px;
-  &:hover {
-    background-color: ${appConfig.theme.colors.neutrals["700"]};
-  }
-`;
-
-const LiHeader = styled.div`
-  display: flex;
-  margin-bottom: 8px;
-`;
-
-const LiImg = styled.img`
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  display: inline-block;
-  margin-right: 8px;
-`;
-
-const ListSpan = styled.span`
-  font-size: 10px;
-  color: ${appConfig.theme.colors.neutrals["300"]};
-  align-self: flex-start;
-`;
-
 const ChatTextField = styled.input`
   width: 100%;
   height: 50px;
@@ -126,13 +67,6 @@ const ChatTextField = styled.input`
   margin-right: 14px;
   color: ${appConfig.theme.colors.neutrals["200"]};
 `;
-
-const StickerImg = styled.img`
-  width: 30%;
-  border-radius: 5px;
-  padding: 10px;
-`;
-
 // ------------------- CSS ↑ -----------------------
 
 export default function ChatPage() {
@@ -140,25 +74,24 @@ export default function ChatPage() {
   const [messageList, setMessageList] = React.useState([]);
   const goTo = useRouter();
 
-  rtListenerMessages(setMessage);
+  listenerMessages(setMessage);
 
-  // Array trackeia possvíes alterações de estado que precisam refletir e executa o código contido
-  function handlerMessage(newMessage) {
-    const objMessage = {
-      // id : messageList.length;
+  function handlerMsg(newMessage) {
+    const objMsg = {
       from: goTo.query.username,
       text: newMessage,
     };
-
-    returnedDtMessages([objMessage]);
+    
+    returnedDtMessages([objMsg]);
     setMessage("");
   }
 
   React.useEffect(() => {
     orderList(setMessageList);
-    rtListenerMessages((newMessage) => {
+    listenerMessages((newMessage) => {
       // ver isso
       setMessageList((cValue) => {
+        console.log("cValue", cValue)
         return [newMessage, ...cValue];
       });
     });
@@ -167,7 +100,7 @@ export default function ChatPage() {
   return (
     <ChatBgWrapper>
       {/* Chat ↓ */}
-      <ChatBox className="">
+      <ChatBox>
         <ChatHeader>
           <h6>Chat</h6>
           <Button
@@ -190,14 +123,13 @@ export default function ChatPage() {
               onKeyPress={(event) => {
                 if (event.key === "Enter") {
                   event.preventDefault();
-                  handlerMessage(message);
+                  handlerMsg(message);
                 }
               }}
             />
             <BtnSendSticker
               onStickerClick={(chosenSticker) => {
-                //console.log(chosenSticker)
-                handlerMessage(":sticker: " + chosenSticker); // Seta Sticker diretamente na lista
+                handlerMsg(":sticker: " + chosenSticker); // Seta Sticker diretamente na lista
                 // setMessage(":sticker: " + chosenSticker) Seta sticker no textfield
               }}
             />
@@ -208,26 +140,28 @@ export default function ChatPage() {
   );
 }
 
-function MessageList(props) {
-  return (
-    <MsgListUl>
-      {props.messages.map((currentMessage) => {
-        return (
-          <MsgListLi key={currentMessage.id}>
-            <LiHeader>
-              <LiImg src={`https://github.com/${currentMessage.from}.png`} />
-              <Text tag="strong">{currentMessage.from}</Text>
-              <ListSpan>{new Date().toLocaleDateString()}</ListSpan>
-            </LiHeader>
+// function MessageList(props) {
+//   console.log(props)
+//   return (
+//     <MsgListUl>
+//       {props.messages.map((currentMessage) => {
+//         return (
+//           <MsgListLi key={currentMessage.id}>
+//             <LiHeader>
+//               <LiImg src={`https://github.com/${currentMessage.from}.png`} />
+//               <Text tag="strong">{currentMessage.from}</Text>
+//               <ListSpan>{new Date().toLocaleDateString()}</ListSpan>
+//               {/* Get created at from currentMessage  */}
+//             </LiHeader>
 
-            {currentMessage.text.startsWith(":sticker:") ? (
-              <StickerImg src={currentMessage.text.replace(":sticker:", "")} />
-            ) : (
-              currentMessage.text
-            )}
-          </MsgListLi>
-        );
-      })}
-    </MsgListUl>
-  );
-}
+//             {currentMessage.text.startsWith(":sticker:") ? (
+//               <StickerImg src={currentMessage.text.replace(":sticker:", "")} />
+//             ) : (
+//               currentMessage.text
+//             )}
+//           </MsgListLi>
+//         );
+//       })}
+//     </MsgListUl>
+//   );
+// }
