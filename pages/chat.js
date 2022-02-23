@@ -6,8 +6,8 @@ import styled from "styled-components";
 import { BtnSendSticker } from "./components/BtnSendSticker";
 import { MessageList } from "./components/MessageList";
 import {
-  returnedDtMessages,
-  listenerMessages,
+  supaInsertMsg,
+  getSupaMsg,
   orderList,
 } from "../services/supabase.api";
 //import bootstrap from "./globalBootstrap";
@@ -72,23 +72,24 @@ const ChatTextField = styled.input`
 export default function ChatPage() {
   const [message, setMessage] = React.useState("");
   const [messageList, setMessageList] = React.useState([]);
-  const goTo = useRouter();
+  const router = useRouter();
 
-  listenerMessages(setMessage);
+  console.log(getSupaMsg(setMessage));
+  //
 
   function handlerMsg(newMessage) {
     const objMsg = {
-      from: goTo.query.username,
+      from: router.query.username,
       text: newMessage,
     };
     
-    returnedDtMessages([objMsg]);
+    supaInsertMsg([objMsg]);
     setMessage("");
   }
 
   React.useEffect(() => {
     orderList(setMessageList);
-    listenerMessages((newMessage) => {
+    getSupaMsg((newMessage) => {
       // ver isso
       setMessageList((cValue) => {
         console.log("cValue", cValue)

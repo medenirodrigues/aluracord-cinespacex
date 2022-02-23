@@ -5,19 +5,22 @@ const SUPABASE_ANON_PUBLIC =
 const SUPABASE_URL = "https://syrabaclfultwbmoygvl.supabase.co";
 const sbClient = createClient(SUPABASE_URL, SUPABASE_ANON_PUBLIC);
 
-function listenerMessages(setMessage) {
+/**
+ * This service get supabase's last messages
+ */
+function getSupaMsg(setMessage) {
   return sbClient
     .from("messages")
     .on("INSERT", (newQuote) => {
-      console.log(newQuote.new.text)
+      //console.log(newQuote.new.text)
       //console.log("há uma nova mensagem", newQuote.new.text);
-      setMessage(newQuote.new.text);
+      setMessage(newQuote.new);
     })
     .subscribe();
 }
 
 //This func is used to insert the object created at "handlerMsg" func
-function returnedDtMessages(objMsg) {
+function supaInsertMsg(objMsg) {
   sbClient
     .from("messages")
     .insert(objMsg)
@@ -42,7 +45,7 @@ function orderList(setMessageList) {
 }
 
 export {
-  listenerMessages,
-  returnedDtMessages,
+  getSupaMsg,
+  supaInsertMsg,
   orderList,
 };
