@@ -5,47 +5,39 @@ const SUPABASE_ANON_PUBLIC =
 const SUPABASE_URL = "https://syrabaclfultwbmoygvl.supabase.co";
 const sbClient = createClient(SUPABASE_URL, SUPABASE_ANON_PUBLIC);
 
-/**
- * This service get supabase's last messages
- */
-function getSupaMsg(setMessage) {
+// This service listen to update mades on the "messages" table
+// to create real time's effect
+function listeningMessageTable(addMessage) {
   return sbClient
     .from("messages")
     .on("INSERT", (newQuote) => {
-      //console.log(newQuote.new.text)
-      //console.log("há uma nova mensagem", newQuote.new.text);
-      setMessage(newQuote.new);
+      addMessage(newQuote.new);
     })
     .subscribe();
 }
 
-//This func is used to insert the object created at "handlerMsg" func
-function supaInsertMsg(objMsg) {
+// This service is used to insert the object
+// created at "handlerMessage" callback
+function insertMessage(objMessage) {
   sbClient
     .from("messages")
-    .insert(objMsg)
+    .insert(objMessage)
     // ↓ The then() return a response from insertion created above.
     .then((data) => {
       console.log("Dado retornado da inserção", data);
     });
 }
 
-/*
-  This func is called in UseEffect
-*/
-function orderList(setMessageList) {
+// This service select whole data on the "message" table
+// and order list to give for setMessageList state method.
+function refreshList(setMessageList) {
   sbClient
     .from("messages")
     .select("*")
-    .order("id", { acending: false })
+    .order("id", { acending: true })
     .then((supaResponse) => {
-      //console.log(supaResponse)
       if (supaResponse.status === 200) setMessageList(supaResponse.data);
     });
 }
 
-export {
-  getSupaMsg,
-  supaInsertMsg,
-  orderList,
-};
+export { listeningMessageTable, insertMessage, refreshList };

@@ -6,9 +6,9 @@ import styled from "styled-components";
 import { BtnSendSticker } from "./components/BtnSendSticker";
 import { MessageList } from "./components/MessageList";
 import {
-  supaInsertMsg,
-  getSupaMsg,
-  orderList,
+  insertMessage,
+  listeningMessageTable,
+  refreshList,
 } from "../services/supabase.api";
 //import bootstrap from "./globalBootstrap";
 
@@ -72,31 +72,32 @@ const ChatTextField = styled.input`
 export default function ChatPage() {
   const [message, setMessage] = React.useState("");
   const [messageList, setMessageList] = React.useState([]);
-  const router = useRouter();
+  const router = useRouter();  
+  
+  React.useEffect(() => {
+    refreshList(setMessageList);
+    
+    listeningMessageTable((newMessage) => {
+      setMessageList((currentListValue) => {
+        return [newMessage, ...currentListValue];
+      });
+    });
+  }, []);
 
-  console.log(getSupaMsg(setMessage));
-  //
-
-  function handlerMsg(newMessage) {
-    const objMsg = {
+  /**
+   * This func is a handler to create 
+   * the object message to be passed to insertMessage service.
+   * @param {*} newMessage message passed by onClick event
+   */ 
+  function handlerMessage(newMessage) {
+    const objMessage = {
       from: router.query.username,
       text: newMessage,
     };
     
-    supaInsertMsg([objMsg]);
+    insertMessage([objMessage]);
     setMessage("");
   }
-
-  React.useEffect(() => {
-    orderList(setMessageList);
-    getSupaMsg((newMessage) => {
-      // ver isso
-      setMessageList((cValue) => {
-        console.log("cValue", cValue)
-        return [newMessage, ...cValue];
-      });
-    });
-  }, []);
 
   return (
     <ChatBgWrapper>
@@ -124,13 +125,13 @@ export default function ChatPage() {
               onKeyPress={(event) => {
                 if (event.key === "Enter") {
                   event.preventDefault();
-                  handlerMsg(message);
+                  handlerMessage(message);
                 }
               }}
             />
             <BtnSendSticker
               onStickerClick={(chosenSticker) => {
-                handlerMsg(":sticker: " + chosenSticker); // Seta Sticker diretamente na lista
+                handlerMessage(":sticker: " + chosenSticker); // Seta Sticker diretamente na lista
                 // setMessage(":sticker: " + chosenSticker) Seta sticker no textfield
               }}
             />
@@ -140,29 +141,3 @@ export default function ChatPage() {
     </ChatBgWrapper>
   );
 }
-
-// function MessageList(props) {
-//   console.log(props)
-//   return (
-//     <MsgListUl>
-//       {props.messages.map((currentMessage) => {
-//         return (
-//           <MsgListLi key={currentMessage.id}>
-//             <LiHeader>
-//               <LiImg src={`https://github.com/${currentMessage.from}.png`} />
-//               <Text tag="strong">{currentMessage.from}</Text>
-//               <ListSpan>{new Date().toLocaleDateString()}</ListSpan>
-//               {/* Get created at from currentMessage  */}
-//             </LiHeader>
-
-//             {currentMessage.text.startsWith(":sticker:") ? (
-//               <StickerImg src={currentMessage.text.replace(":sticker:", "")} />
-//             ) : (
-//               currentMessage.text
-//             )}
-//           </MsgListLi>
-//         );
-//       })}
-//     </MsgListUl>
-//   );
-// }
