@@ -1,16 +1,16 @@
-import { Text, Button } from "@skynexui/components";
+import { Button } from "@skynexui/components";
+//import Bootstrap from "./bootstrap/globalBootstrap";
 import React from "react";
-import appConfig from "../config.json";
+import appConfig from "../../config.json";
 import { useRouter } from "next/router";
 import styled from "styled-components";
-import { BtnSendSticker } from "./components/BtnSendSticker";
-import { MessageList } from "./components/MessageList";
+import { BtnSendSticker } from "./BtnSendSticker";
+import { MessageList } from "./MessageList";
 import {
   insertMessage,
   listeningMessageTable,
   refreshList,
-} from "../services/supabase.api";
-//import bootstrap from "./globalBootstrap";
+} from "../../services/supabase.api";
 
 // ------------------- CSS ↓ -----------------------
 const ChatBgWrapper = styled.div`
@@ -67,9 +67,9 @@ const ChatTextField = styled.input`
   margin-right: 14px;
   color: ${appConfig.theme.colors.neutrals["200"]};
 `;
-// ------------------- CSS ↑ -----------------------
+// ------------------- CSS ↑ -----------------------//
 
-export default function ChatPage() {
+export default function Chat() {
   const [message, setMessage] = React.useState("");
   const [messageList, setMessageList] = React.useState([]);
   const router = useRouter();  

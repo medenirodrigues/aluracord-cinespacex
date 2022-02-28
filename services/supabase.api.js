@@ -6,7 +6,7 @@ const SUPABASE_URL = "https://syrabaclfultwbmoygvl.supabase.co";
 const sbClient = createClient(SUPABASE_URL, SUPABASE_ANON_PUBLIC);
 
 // This service listen to update mades on the "messages" table
-// to create real time's effect
+// to create real time's effect in our Chat
 function listeningMessageTable(addMessage) {
   return sbClient
     .from("messages")
@@ -29,7 +29,7 @@ function insertMessage(objMessage) {
 }
 
 // This service select whole data on the "message" table
-// and order list to give for setMessageList state method.
+// and order list to give to setMessageList state method.
 function refreshList(setMessageList) {
   sbClient
     .from("messages")

@@ -8,7 +8,6 @@ const SecWrap = styled.section`
   align-items: center;
   width: 100%;
 `;
-
 const Avatar = styled.img`
   width: 180px;
   border-radius: 50%;
@@ -16,7 +15,6 @@ const Avatar = styled.img`
   align-items: center;
   border: 6px solid ${appConfig.theme.colors.primary["050"]};
 `;
-
 const TextField = styled.input`
   width: 100%;
   max-width: 300px;
@@ -26,7 +24,6 @@ const TextField = styled.input`
   border-radius: 8px;
   background-color: ${appConfig.theme.colors.primary["050"]};
 `;
-
 const Button = styled.button`
   width: 100%;
   max-width: 200px;

@@ -113,7 +113,7 @@ export default function LoginPage() {
             onSubmit={(eventInfo) => {
               // Cancela o comportamento padrão de carregar a págino ao mudar de rota
               eventInfo.preventDefault();
-              goTo.push(`/chat?username=${username}`);
+              goTo.push(`/components/Home?username=${username}`);
             }}
           >
             <LoginForm
