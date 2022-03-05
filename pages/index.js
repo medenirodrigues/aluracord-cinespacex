@@ -31,7 +31,6 @@ const CardForm = styled.div`
   box-shadow: rgba(0, 0, 0, 0.1) 0px 20px 25px -5px,
     rgba(0, 0, 0, 0.04) 0px 10px 10px -5px;
 `;
-
 const Form = styled.form`
   display: flex;
   flex-direction: column;
@@ -43,13 +42,11 @@ const Form = styled.form`
   }
   text-align: center;
 `;
-
 const LogoTitle = styled.h2`
   color: ${appConfig.theme.colors.neutrals["000"]};
   font-size: small;
   margin-bottom: 10px;
 `;
-
 const Greetings = styled.h3`
   color: ${appConfig.theme.colors.neutrals["000"]};
   font-size: medium;

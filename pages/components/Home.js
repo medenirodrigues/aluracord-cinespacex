@@ -1,9 +1,12 @@
 import React from "react";
 
 import appConfig from "../../config.json";
+//import InfiniteScroll from "infinite-scroll"
 import Bootstrap from "../bootstrap/globalBootstrap";
 import styled from "styled-components";
 import { BackgroundWrapper } from "../index";
+import { MoviePoster } from "./MoviePoster";
+import { movieData } from "../../services/themdb.api";
 
 /**
  * Design
@@ -19,40 +22,34 @@ import { BackgroundWrapper } from "../index";
 
 const HomeBackground = styled(BackgroundWrapper)`
   height: 100%; // Criar um cálculo que exiba uma quantidade de filmes maior com base nesse tamanho
-  display: inline-flex;
+  display: flex;
   flex-wrap: wrap;
   align-items: center;
   background-blend-mode: multiply;
   background-color: ${appConfig.theme.colors.primary["500"]};
 `;
 
-const MovieCard = styled.div`
-  width: 14rem;
-  height: 17rem;
-  margin: 10px;
-  background-color: white;
-`;
-
 export default function Home() {
+  const [movieArray, setMovieArray] = React.useState([]);
+
+  React.useEffect(() => {
+    movieData(setMovieArray);
+    console.log(movieArray)
+  }, [])
+
+  console.log(movieArray)
   return (
     <HomeBackground>
-      {appConfig.movies.map((movie) => {
+      {appConfig.movies.map((movie, idx) => {
         return (
-          <MovieCard className="card">
-            <img
-              src="https://blogdovladimir.files.wordpress.com/2010/02/medico.jpg"
-              className="card-img-top"
-              alt="#"
-            />
-            <div className="card-body">
-              <h5 className="card-title">
-                {movie}
-                <a href="#" className="btn btn-primary btn-sm">
-                  See More
-                </a>
-              </h5>
-            </div>
-          </MovieCard>
+          //Averiguar o porque q o style do bootstrap n tá funfando
+          // provavelmente por caisa das classes
+          <MoviePoster 
+            img={"https://m.media-amazon.com/images/M/MV5BMGFkNWI4MTMtNGQ0OC00MWVmLTk3MTktOGYxN2Y2YWVkZWE2XkEyXkFqcGdeQXVyNjU0OTQ0OTY@._V1_.jpg"}
+            movieName={movie}
+            key={movie + idx}
+            info={movie}
+          />
         );
       })}
       {/* <h1>Home</h1> */}
