@@ -14,7 +14,7 @@ export function MoviePoster(props) {
   return (
     <MovieCard>
       <img
-        src={props.img}
+        src={"https://www.themoviedb.org/t/p/w600_and_h900_bestv2" + props.img}
         className="card-img-top"
         alt={props.info}
       />

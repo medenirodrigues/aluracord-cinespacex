@@ -29,30 +29,63 @@ const HomeBackground = styled(BackgroundWrapper)`
   background-color: ${appConfig.theme.colors.primary["500"]};
 `;
 
+// const UlMovies = styled.ul`
+//   width: 90vw;
+//   display: flex;
+//   flex-wrap: wrap;
+//   align-items: center;
+// `;
+
 export default function Home() {
   const [movieArray, setMovieArray] = React.useState([]);
+  const [currentPage, setCurrentPage] = React.useState(1);
+  React.useEffect(() => {
+    // ver isso 
+    movieData(currentPage, setMovieArray);
+  }, [currentPage])
+
 
   React.useEffect(() => {
-    movieData(setMovieArray);
-    console.log(movieArray)
-  }, [])
+    const intersecObserver = new IntersectionObserver((entries) => {
+      //console.log(entries);
+      if (entries.some((entry) => entry.isIntersecting)) {
+        setCurrentPage(() => {
+          return currentPage++
+        })
+        movieData(currentPage, setMovieArray)
+      }
+    });
 
-  console.log(movieArray)
+    intersecObserver.observe(document.querySelector(".sentinel"));
+    return () => intersecObserver.disconnect();
+
+  },[]);
+
+  //console.log(movieArray);
   return (
     <HomeBackground>
-      {appConfig.movies.map((movie, idx) => {
+      <h1 style={{ color: "white",}}>
+      {currentPage}
+      </h1>
+      {movieArray?.map((movie, idx) => {
         return (
           //Averiguar o porque q o style do bootstrap n tá funfando
-          // provavelmente por caisa das classes
-          <MoviePoster 
-            img={"https://m.media-amazon.com/images/M/MV5BMGFkNWI4MTMtNGQ0OC00MWVmLTk3MTktOGYxN2Y2YWVkZWE2XkEyXkFqcGdeQXVyNjU0OTQ0OTY@._V1_.jpg"}
-            movieName={movie}
-            key={movie + idx}
-            info={movie}
+          // provavelmente por canta das classes
+          <MoviePoster
+            img={movie.poster_path}
+            movieName={movie.original_title}
+            key={`${movie.original_title}-${idx}`}
+            info={movie.original_title}
           />
         );
       })}
-      {/* <h1>Home</h1> */}
+      <div className="row">
+        <div className="text-center sentinel">
+          <div className="spinner-border text-light" role="status">
+            <span className="visually-hidden">Loading...</span>
+          </div>
+        </div>
+      </div>
     </HomeBackground>
   );
 }
