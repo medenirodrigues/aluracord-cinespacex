@@ -8,7 +8,7 @@ import styled from "styled-components";
 export const BackgroundWrapper = styled.div`
   display: flex;
   justify-content: flex-start; // main axis
-  align-items: center;  // cross axis
+  align-items: center; // cross axis
   background-image: url(https://reflectionofbcmlectures.files.wordpress.com/2013/09/old-skool-3d-cinema-audience.jpg);
   width: 100%;
   height: 100vh;

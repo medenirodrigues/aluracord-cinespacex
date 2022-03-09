@@ -1,7 +1,6 @@
 import React from "react";
 
 import appConfig from "../../config.json";
-import Bootstrap from "../bootstrap/globalBootstrap";
 import styled from "styled-components";
 import { BackgroundWrapper } from "../index";
 import { MoviePoster } from "./MoviePoster";
@@ -21,9 +20,10 @@ import { movieData } from "../../services/themdb.api";
 
 const HomeBackground = styled(BackgroundWrapper)`
   height: 100%; // Criar um cálculo que exiba uma quantidade de filmes maior com base nesse tamanho
+  /* width: vw; */
   display: flex;
+  justify-content: center;
   flex-wrap: wrap;
-  align-items: center;
   background-blend-mode: multiply;
   background-color: ${appConfig.theme.colors.primary["500"]};
 `;
@@ -46,7 +46,7 @@ export default function Home() {
    */
   React.useEffect(() => {
     movieData(setMovieArray, currentPage, movieArray);
-  }, [currentPage])
+  }, [currentPage]);
 
   /**
    * This useEffect is watching sentinel html element to update
@@ -56,28 +56,32 @@ export default function Home() {
     const intersecObserver = new IntersectionObserver((entries) => {
       if (entries.some((entry) => entry.isIntersecting)) {
         setCurrentPage(() => {
-          return currentPage++
-        })
-        movieData(setMovieArray, currentPage, movieArray)
+          return currentPage++;
+        });
+        movieData(setMovieArray, currentPage, movieArray);
       }
     });
 
     intersecObserver.observe(document.querySelector(".sentinel"));
     return () => intersecObserver.disconnect();
-  },[]);
+  }, []);
 
   return (
     <HomeBackground>
       {movieArray?.map((movie, idx) => {
+        console.log(movie);
         return (
           //Averiguar o porque q o style do bootstrap n tá funfando
           // provavelmente por canta das classes
-          <MoviePoster
-            img={movie.poster_path}
-            movieName={movie.original_title}
-            key={`${movie.original_title}-${idx}`}
-            info={movie.original_title}
-          />
+          <>
+            <MoviePoster
+              img={movie.poster_path}
+              idValue={`${movie.original_title}-${idx}`}
+              movieName={movie.original_title}
+              key={`${movie.original_title}-${idx}`}
+              info={movie.original_title}
+            />
+          </>
         );
       })}
 

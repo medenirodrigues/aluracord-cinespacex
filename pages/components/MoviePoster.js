@@ -1,6 +1,4 @@
 import React from "react";
-
-import Bootstrap from "../bootstrap/globalBootstrap";
 import styled from "styled-components";
 
 const MovieCard = styled.div`
@@ -11,18 +9,69 @@ const MovieCard = styled.div`
 `;
 
 export function MoviePoster(props) {
+  const [mdMovieName, setMdMovieName] = React.useState('')
+
+  function fillModalData() {
+    console.log(props.movieName)
+    setMdMovieName(props.movieName)
+  }
   return (
-    <MovieCard>
-      <img
-        src={"https://www.themoviedb.org/t/p/w600_and_h900_bestv2" + props.img}
-        className="card-img-top"
-        alt={props.info}
-      />
-      <div className="card-body">
-        <h5 className="card-title" style={{ fontSize: "0.9rem" }}>
-          {props.movieName}
-        </h5>
+    <>
+      <div
+        className="modal fade"
+        id="staticBackdrop"
+        data-bs-backdrop="static"
+        data-bs-keyboard="false"
+        tabindex="-1"
+        aria-labelledby="staticBackdropLabel"
+        aria-hidden="true"
+      >
+        <div className="modal-dialog">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h5 className="modal-title" id="staticBackdropLabel">
+                {props.movieName}
+              </h5>
+              <button
+                type="button"
+                className="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div className="modal-body">...</div>
+            <div className="modal-footer">
+              <button
+                type="button"
+                className="btn btn-secondary"
+                data-bs-dismiss="modal"
+              >
+                Close
+              </button>
+              <button type="button" className="btn btn-primary">
+                Understood
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
-    </MovieCard>
+      <MovieCard>
+        <img
+          src={
+            "https://www.themoviedb.org/t/p/w600_and_h900_bestv2" + props.img
+          }
+          className="card-img-top"
+          alt={props.info}
+          onClick={fillModalData}
+          data-bs-toggle="modal"
+          data-bs-target="#staticBackdrop"
+        />
+        <div className="card-body">
+          <h5 className="card-title" id={props.idValue} style={{ fontSize: "0.9rem" }}>
+            {props.movieName}
+          </h5>
+        </div>
+      </MovieCard>
+    </>
   );
 }
