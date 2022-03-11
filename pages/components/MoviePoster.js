@@ -9,11 +9,24 @@ const MovieCard = styled.div`
 `;
 
 export function MoviePoster(props) {
-  const [mdMovieName, setMdMovieName] = React.useState('')
+  //const [mdMovieName, setMdMovieName] = React.useState('')
 
-  function fillModalData() {
-    console.log(props.movieName)
-    setMdMovieName(props.movieName)
+  function fillModalData(event) {
+
+    //const element = event.target
+   //console.log(event.target)
+    if (event.target.localName === "img" || event.target.localName === "h5") {
+      document.getElementById("staticBackdropLabel").textContent = event.target.alt;
+    } 
+
+    // vou ter que criar uma request pra esse get pq se eu for fazer
+    // esse corre pra todo click a tag html n vai dar conta
+
+    /**
+     * quando o user clicar ele pega o alt do img e insere
+     * no value do h5 do modal, se ele clicar no título do filme
+     * (h5) ele pega o value do titulo e insere no h5 do modal
+     */
   }
   return (
     <>
@@ -30,7 +43,6 @@ export function MoviePoster(props) {
           <div className="modal-content">
             <div className="modal-header">
               <h5 className="modal-title" id="staticBackdropLabel">
-                {props.movieName}
               </h5>
               <button
                 type="button"
@@ -55,14 +67,13 @@ export function MoviePoster(props) {
           </div>
         </div>
       </div>
-      <MovieCard>
+      <MovieCard onClick={fillModalData}>
         <img
           src={
             "https://www.themoviedb.org/t/p/w600_and_h900_bestv2" + props.img
           }
           className="card-img-top"
           alt={props.info}
-          onClick={fillModalData}
           data-bs-toggle="modal"
           data-bs-target="#staticBackdrop"
         />

@@ -69,7 +69,7 @@ export default function Home() {
   return (
     <HomeBackground>
       {movieArray?.map((movie, idx) => {
-        console.log(movie);
+        //console.log(movie);
         return (
           //Averiguar o porque q o style do bootstrap n tá funfando
           // provavelmente por canta das classes
