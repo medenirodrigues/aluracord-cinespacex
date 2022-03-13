@@ -1,33 +1,26 @@
 import React from "react";
 import styled from "styled-components";
+import { selectedMovieData } from "../../services/themdb.api";
 
-const MovieCard = styled.div`
+const MoviePosterUnt = styled.div`
   width: 12rem;
   height: 22rem;
   margin: 14px;
   background-color: white;
+  cursor: pointer;
 `;
 
 export function MoviePoster(props) {
-  //const [mdMovieName, setMdMovieName] = React.useState('')
-
+  
+  
   function fillModalData(event) {
+    oneMovieData(event.target.id)
 
-    //const element = event.target
-   //console.log(event.target)
-    if (event.target.localName === "img" || event.target.localName === "h5") {
-      document.getElementById("staticBackdropLabel").textContent = event.target.alt;
-    } 
-
-    // vou ter que criar uma request pra esse get pq se eu for fazer
-    // esse corre pra todo click a tag html n vai dar conta
-
-    /**
-     * quando o user clicar ele pega o alt do img e insere
-     * no value do h5 do modal, se ele clicar no título do filme
-     * (h5) ele pega o value do titulo e insere no h5 do modal
-     */
+    // trazer os dados da request ou por
+    // meio de uma função ou de outra forma...
   }
+
+
   return (
     <>
       <div
@@ -42,8 +35,7 @@ export function MoviePoster(props) {
         <div className="modal-dialog">
           <div className="modal-content">
             <div className="modal-header">
-              <h5 className="modal-title" id="staticBackdropLabel">
-              </h5>
+              <h5 className="modal-title" id="staticBackdropLabel"></h5>
               <button
                 type="button"
                 className="btn-close"
@@ -67,22 +59,33 @@ export function MoviePoster(props) {
           </div>
         </div>
       </div>
-      <MovieCard onClick={fillModalData}>
+      <MoviePosterUnt
+        onClick={fillModalData}
+        id={props.idValue}
+        data-bs-toggle="modal"
+        data-bs-target="#staticBackdrop"
+      >
         <img
           src={
             "https://www.themoviedb.org/t/p/w600_and_h900_bestv2" + props.img
           }
           className="card-img-top"
           alt={props.info}
-          data-bs-toggle="modal"
-          data-bs-target="#staticBackdrop"
+          style={{ pointerEvents: "none" }}
         />
         <div className="card-body">
-          <h5 className="card-title" id={props.idValue} style={{ fontSize: "0.9rem" }}>
+          <h5
+            className="card-title"
+            style={{
+              fontSize: "0.9rem",
+              pointerEvents: "none",
+              //cursor: "pointer"
+            }}
+          >
             {props.movieName}
           </h5>
         </div>
-      </MovieCard>
+      </MoviePosterUnt>
     </>
   );
 }

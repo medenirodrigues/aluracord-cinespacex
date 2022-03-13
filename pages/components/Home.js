@@ -4,7 +4,7 @@ import appConfig from "../../config.json";
 import styled from "styled-components";
 import { BackgroundWrapper } from "../index";
 import { MoviePoster } from "./MoviePoster";
-import { movieData } from "../../services/themdb.api";
+import { movieData, selectedMovieData } from "../../services/themdb.api";
 
 /**
  * Design
@@ -69,14 +69,13 @@ export default function Home() {
   return (
     <HomeBackground>
       {movieArray?.map((movie, idx) => {
-        //console.log(movie);
         return (
           //Averiguar o porque q o style do bootstrap n tá funfando
           // provavelmente por canta das classes
           <>
             <MoviePoster
               img={movie.poster_path}
-              idValue={`${movie.original_title}-${idx}`}
+              idValue={movie.id}
               movieName={movie.original_title}
               key={`${movie.original_title}-${idx}`}
               info={movie.original_title}
