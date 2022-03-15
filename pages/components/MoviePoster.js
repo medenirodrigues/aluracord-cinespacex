@@ -11,19 +11,20 @@ const MoviePosterUnt = styled.div`
 `;
 
 export function MoviePoster(props) {
-  
-  
-  function fillModalData(event) {
-    oneMovieData(event.target.id)
 
-    // trazer os dados da request ou por
-    // meio de uma função ou de outra forma...
+  let [movieDetails, setMovieDetails] = React.useState('')
+  
+  async function fillModalData(event) {
+      setMovieDetails(await selectedMovieData(event.target.id));
+
+      document.getElementsByClassName("modal-title").innerText = movieDetails.original_title;
+      const modalMovie = bootstrap.Carousel.getInstance(modalMovie)
+      console.log(modalMovie)
   }
-
 
   return (
     <>
-      <div
+      {/* <div
         className="modal fade"
         id="staticBackdrop"
         data-bs-backdrop="static"
@@ -35,7 +36,9 @@ export function MoviePoster(props) {
         <div className="modal-dialog">
           <div className="modal-content">
             <div className="modal-header">
-              <h5 className="modal-title" id="staticBackdropLabel"></h5>
+              <h5 className="modal-title" id="staticBackdropLabel">
+                Titulo: {`${movieDetails.original_title}${new Date}`}
+              </h5>
               <button
                 type="button"
                 className="btn-close"
@@ -50,20 +53,21 @@ export function MoviePoster(props) {
                 className="btn btn-secondary"
                 data-bs-dismiss="modal"
               >
-                Close
+                Fechar
               </button>
               <button type="button" className="btn btn-primary">
-                Understood
+                Entendido
               </button>
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
+
       <MoviePosterUnt
         onClick={fillModalData}
         id={props.idValue}
-        data-bs-toggle="modal"
-        data-bs-target="#staticBackdrop"
+        // data-bs-toggle="modal"
+        // data-bs-target="#staticBackdrop"
       >
         <img
           src={
@@ -79,7 +83,6 @@ export function MoviePoster(props) {
             style={{
               fontSize: "0.9rem",
               pointerEvents: "none",
-              //cursor: "pointer"
             }}
           >
             {props.movieName}

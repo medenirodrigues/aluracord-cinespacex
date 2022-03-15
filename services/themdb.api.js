@@ -20,9 +20,10 @@ export function movieData(fillArray, currentPage, movieArray) {
 }
 
 export function selectedMovieData(MOVIE_ID) {
-  fetch(API_A_MOVIE_URL + MOVIE_ID + '?' + API_KEY)
+  const getMovieDetails = fetch(API_A_MOVIE_URL + MOVIE_ID + '?' + API_KEY)
     .then((response) => response.json())
     .then((aMovieRespJson) => {
-      console.log(aMovieRespJson);
+      return aMovieRespJson;
     })
+  return getMovieDetails;
 }
