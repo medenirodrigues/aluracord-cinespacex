@@ -11,20 +11,31 @@ const MoviePosterUnt = styled.div`
 `;
 
 export function MoviePoster(props) {
+  //let [movieDetails, setMovieDetails] = React.useState("");
 
-  let [movieDetails, setMovieDetails] = React.useState('')
-  
   async function fillModalData(event) {
-      setMovieDetails(await selectedMovieData(event.target.id));
+    //setMovieDetails(await selectedMovieData(event.target.id));
 
-      document.getElementsByClassName("modal-title").innerText = movieDetails.original_title;
-      const modalMovie = bootstrap.Carousel.getInstance(modalMovie)
-      console.log(modalMovie)
+    const movieDetails = await selectedMovieData(event.target.id);
+    const movieModal = new bootstrap.Modal(
+      document.getElementById("staticBackdrop")
+    );
+
+    console.log(movieDetails);
+    document.getElementById(
+      "staticBackdropLabel"
+    ).innerText = movieDetails.original_title;
+    
+    document.getElementById(
+      `movie-${props.idValue}`
+    ).innerText = movieDetails.overview;
+    
+    movieModal.toggle();
   }
 
   return (
     <>
-      {/* <div
+      <div
         className="modal fade"
         id="staticBackdrop"
         data-bs-backdrop="static"
@@ -36,9 +47,7 @@ export function MoviePoster(props) {
         <div className="modal-dialog">
           <div className="modal-content">
             <div className="modal-header">
-              <h5 className="modal-title" id="staticBackdropLabel">
-                Titulo: {`${movieDetails.original_title}${new Date}`}
-              </h5>
+              <h5 className="modal-title" id="staticBackdropLabel"></h5>
               <button
                 type="button"
                 className="btn-close"
@@ -46,7 +55,8 @@ export function MoviePoster(props) {
                 aria-label="Close"
               ></button>
             </div>
-            <div className="modal-body">...</div>
+            <div className="modal-body" id={`movie-${props.idValue}`}>
+            </div>
             <div className="modal-footer">
               <button
                 type="button"
@@ -61,13 +71,13 @@ export function MoviePoster(props) {
             </div>
           </div>
         </div>
-      </div> */}
+      </div>
 
       <MoviePosterUnt
         onClick={fillModalData}
         id={props.idValue}
-        // data-bs-toggle="modal"
-        // data-bs-target="#staticBackdrop"
+        // data-bs-toggle={activeModal}
+        //data-bs-target="#staticBackdrop"
       >
         <img
           src={
