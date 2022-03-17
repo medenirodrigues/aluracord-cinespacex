@@ -11,25 +11,23 @@ const MoviePosterUnt = styled.div`
 `;
 
 export function MoviePoster(props) {
-  //let [movieDetails, setMovieDetails] = React.useState("");
-
   async function fillModalData(event) {
-    //setMovieDetails(await selectedMovieData(event.target.id));
-
     const movieDetails = await selectedMovieData(event.target.id);
     const movieModal = new bootstrap.Modal(
       document.getElementById("staticBackdrop")
     );
 
     console.log(movieDetails);
-    document.getElementById(
-      "staticBackdropLabel"
-    ).innerText = movieDetails.original_title;
-    
-    document.getElementById(
-      `movie-${props.idValue}`
-    ).innerText = movieDetails.overview;
-    
+
+    document.getElementById("staticBackdropLabel").innerText =
+      movieDetails.original_title;
+
+    document.getElementById("modalId").innerText = movieDetails.overview;
+
+    document.getElementById("modalImg").src =
+      "https://www.themoviedb.org/t/p/w600_and_h900_bestv2" +
+      movieDetails.poster_path;
+
     movieModal.toggle();
   }
 
@@ -40,11 +38,11 @@ export function MoviePoster(props) {
         id="staticBackdrop"
         data-bs-backdrop="static"
         data-bs-keyboard="false"
-        tabindex="-1"
+        tabIndex="-1"
         aria-labelledby="staticBackdropLabel"
         aria-hidden="true"
       >
-        <div className="modal-dialog">
+        <div className="modal-dialog modal-lg">
           <div className="modal-content">
             <div className="modal-header">
               <h5 className="modal-title" id="staticBackdropLabel"></h5>
@@ -55,7 +53,17 @@ export function MoviePoster(props) {
                 aria-label="Close"
               ></button>
             </div>
-            <div className="modal-body" id={`movie-${props.idValue}`}>
+            <div className="modal-body">
+              <div className="container-fluid">
+                <div className="row">
+                  <div className="col-md-4 col-lg-4">
+                    <img src="" className="img-fluid rounded" id="modalImg" />
+                  </div>
+                  <div className="col-md-6 col-lg-6">
+                    <p className="" id="modalId"></p>
+                  </div>
+                </div>
+              </div>
             </div>
             <div className="modal-footer">
               <button
