@@ -30,6 +30,7 @@ const MsgListUl = styled.ul`
 const MsgListLi = styled.li`
   border-radius: 5px;
   padding: 6px;
+  margin-right: 10px;
   margin-bottom: 12px;
   &:hover {
     background-color: ${appConfig.theme.colors.neutrals["700"]};

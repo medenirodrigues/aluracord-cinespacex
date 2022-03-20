@@ -13,17 +13,10 @@ import {
 } from "../../services/supabase.api";
 
 // ------------------- CSS ↓ -----------------------
-const ChatBgWrapper = styled.div`
-  width: 100%;
-  height: 100vh;
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-blend-mode: multiply;
-  background-image: url(https://reflectionofbcmlectures.files.wordpress.com/2013/09/old-skool-3d-cinema-audience.jpg);
-  color: ${appConfig.theme.colors.neutrals["000"]};
-  background-color: ${appConfig.theme.colors.primary["500"]};
-`;
 const ChatBox = styled.div`
+  position: fixed;
+  top: 19vh;
+  left: 66vw;
   display: flex;
   flex-direction: column;
   flex: 1;
@@ -34,6 +27,7 @@ const ChatBox = styled.div`
   max-width: 30%;
   max-height: 80vh;
   padding: 15px;
+  /* pointer-events: none; */
 `;
 const ChatHeader = styled.div`
   width: 100%;
@@ -44,10 +38,14 @@ const ChatHeader = styled.div`
 `;
 const ChatForm = styled.form`
   display: flex;
+  width: 100%;
   align-items: center;
+  border-radius: 5px 15px 15px 5px;
+  background-color: ${appConfig.theme.colors.neutrals["800"]};
 `;
 const MsgBox = styled.div`
   position: relative;
+  flex-wrap: nowrap;
   display: flex;
   flex: 1;
   height: 80%;
@@ -57,7 +55,7 @@ const MsgBox = styled.div`
   padding: 16px;
 `;
 const ChatTextField = styled.input`
-  width: 100%;
+  width: 70%;
   height: 50px;
   border: 0;
   resize: none;
@@ -72,11 +70,11 @@ const ChatTextField = styled.input`
 export default function Chat() {
   const [message, setMessage] = React.useState("");
   const [messageList, setMessageList] = React.useState([]);
-  const router = useRouter();  
-  
+  const router = useRouter();
+
   React.useEffect(() => {
     refreshList(setMessageList);
-    
+
     listeningMessageTable((newMessage) => {
       setMessageList((currentListValue) => {
         return [newMessage, ...currentListValue];
@@ -85,24 +83,27 @@ export default function Chat() {
   }, []);
 
   /**
-   * This func is a handler to create 
+   * This func is a handler to create
    * the object message to be passed to insertMessage service.
    * @param {*} newMessage message passed by onClick event
-   */ 
+   */
   function handlerMessage(newMessage) {
     const objMessage = {
       from: router.query.username,
       text: newMessage,
     };
-    
+
     insertMessage([objMessage]);
     setMessage("");
   }
 
+  function openedChat() {
+    //document.getElementById()
+  }
+
   return (
-    <ChatBgWrapper>
-      {/* Chat ↓ */}
-      <ChatBox>
+    <div onClick={openedChat}>
+      <ChatBox id="">
         <ChatHeader>
           <h6>Chat</h6>
           <Button
@@ -114,7 +115,7 @@ export default function Chat() {
         </ChatHeader>
         <MsgBox>
           <MessageList messages={messageList} />
-          <ChatForm as="form">
+          <ChatForm as="form" id="chat-form">
             <ChatTextField
               placeholder="Insira sua mensagem aqui..."
               type="textarea"
@@ -135,9 +136,18 @@ export default function Chat() {
                 // setMessage(":sticker: " + chosenSticker) Seta sticker no textfield
               }}
             />
+            <Button
+              id="send-btn"
+              label="Enviar"
+              styleSheet={{
+                // width: "50px",
+                margin: "10px",
+                borderRadius: "10px"
+              }}
+            />
           </ChatForm>
         </MsgBox>
       </ChatBox>
-    </ChatBgWrapper>
+    </div>
   );
 }

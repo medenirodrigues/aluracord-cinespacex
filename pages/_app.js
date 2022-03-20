@@ -14,6 +14,9 @@ function GlobalStyle() {
       body {
         font-family: "Open Sans", sans-serif;
       }
+      ul, li {
+        padding: 0;
+      }
       /* App fit Height */
       html,
       body,
