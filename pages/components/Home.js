@@ -8,21 +8,12 @@ import { MoviePoster } from "./MoviePoster";
 import { movieData, selectedMovieData } from "../../services/themdb.api";
 
 const HomeBackground = styled(BackgroundWrapper)`
-  height: 100%; // Criar um cálculo que exiba uma quantidade de filmes maior com base nesse tamanho
-  /* width: vw; */
-  display: flex;
+  height: 100%; 
   justify-content: center;
   flex-wrap: wrap;
   background-blend-mode: multiply;
   background-color: ${appConfig.theme.colors.primary["500"]};
 `;
-
-// const UlMovies = styled.ul`
-//   width: 90vw;
-//   display: flex;
-//   flex-wrap: wrap;
-//   align-items: center;
-// `;
 
 export default function Home() {
   const [movieArray, setMovieArray] = React.useState([]);

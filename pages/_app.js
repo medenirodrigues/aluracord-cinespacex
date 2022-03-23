@@ -1,6 +1,7 @@
 import React from "react";
 import Head from "next/head";
 import Script from "next/script";
+import appConfig from "../config.json";
 
 function GlobalStyle() {
   return (
@@ -14,8 +15,25 @@ function GlobalStyle() {
       body {
         font-family: "Open Sans", sans-serif;
       }
-      ul, li {
+      ul,
+      li {
         padding: 0;
+      }
+      body::-webkit-scrollbar {
+          width: 10px; /* width of the entire scrollbar */
+        }
+      body::-webkit-scrollbar-track {
+          background: ${appConfig.theme.colors.neutrals[
+            "700"
+          ]}; /* color of the tracking area */
+        }
+      body::-webkit-scrollbar-thumb {
+          background-color: ${appConfig.theme.colors.secondary[
+            "200"
+          ]}; /* color of the scroll thumb */
+          border-radius: 20px; /* roundness of the scroll thumb */
+          border: 3px solid ${appConfig.theme.colors.neutrals["800"]}; /* creates padding around scroll thumb */
+        }
       }
       /* App fit Height */
       html,
@@ -56,9 +74,15 @@ export default function CustomApp({ Component, pageProps }) {
           integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
           crossOrigin="anonymous"
         />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Material+Icons"
+          rel="stylesheet"
+        />
       </Head>
+
       <GlobalStyle />
       <Component {...pageProps} />
+
       <Script
         src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"
         integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB"

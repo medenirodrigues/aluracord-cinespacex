@@ -1,109 +1,114 @@
-import React from 'react';
-import { Box, Button, Text, Image } from '@skynexui/components';
-import appConfig from '../../config.json';
-//import styledComponents from 'styled-components';
+import React from "react";
+import appConfig from "../../config.json";
+import styled from "styled-components";
 
 export function BtnSendSticker(props) {
-  const [isOpen, setOpenState] = React.useState('');
+  const [isOpen, setOpenState] = React.useState("");
+
+  const StickerButton = styled.button`
+    border-radius: 50%;
+    height: 20px;
+    width: 20px;
+    font-size: 20px;
+    margin-top: 15px;
+    line-height: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    filter: ${isOpen ? "grayscale(0)" : "grayscale(1)"};
+    &:hover {
+      filter: "grayscale(0)";
+    }
+  `;
+  const FrameBox = styled.div`
+    display: flex;
+    flex-direction: column;
+    border-radius: 5px;
+    position: absolute;
+    background-color: ${appConfig.theme.colors.neutrals["800"]};
+    width: {
+      xs: 200px;
+      sm: 290px;
+    }
+    height: 300px;
+    right: 50px;
+    z-index: 1000;
+    bottom: 60px;
+    padding: 16px;
+    box-shadow: rgba(4, 4, 5, 0.15) 0px 0px 0px 1px,
+      rgba(0, 0, 0, 0.24) 0px 8px 16px 0px;
+  `;
+  const FrameUl = styled.ul`
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    flex: 1;
+    padding-top: 16px;
+    overflow: scroll;
+    &::-webkit-scrollbar {
+      width: 10px; /* width of the entire scrollbar */
+    }
+    &::-webkit-scrollbar-track {
+      background: ${appConfig.theme.colors.neutrals[
+        "700"
+      ]}; /* color of the tracking area */
+    }
+    &::-webkit-scrollbar-thumb {
+      background-color: ${appConfig.theme.colors.neutrals[
+        "600"
+      ]}; /* color of the scroll thumb */
+      border-radius: 20px; /* roundness of the scroll thumb */
+      border: 3px solid ${appConfig.theme.colors.neutrals["800"]}; /* creates padding around scroll thumb */
+    }
+  `;
+  const FrameLi = styled.li`
+    width: 50%;
+    border-radius: 5px;
+    padding: 10px;
+    &:focus {
+      background-color: ${appConfig.theme.colors.neutrals["600"]};
+    }
+    &:hover {
+      background-color: ${appConfig.theme.colors.neutrals["600"]};
+    }
+  `;
 
   return (
-    <Box
+    <div
       styleSheet={{
-        position: 'relative',
-        display: 'flex',
+        position: "relative",
+        display: "flex",
       }}
     >
-      <Button
-        styleSheet={{
-          borderRadius: '50%',
-          height: '26px',
-          width: '20px',
-          fontSize: '20px',
-          marginTop: '15px',
-          lineHeight: '0',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          backgroundColor: appConfig.theme.colors.neutrals['300'],
-          filter: isOpen ? 'grayscale(0)' : 'grayscale(1)',
-          hover: {
-            filter: 'grayscale(0)',
-          }
-        }}
-        label="😋"
+      <StickerButton
         onClick={() => setOpenState(!isOpen)}
-        onKeyPress={(event) => {
-          // adicionar uma forma de fechar o component tbm apertando "Esc"
-          console.log(event.key)
-        }}
-      />
+        className="me-3"
+        onKeyPress={event => console.log(event.key)}
+      >
+        {/* adicionar uma forma de fechar o component tbm apertando "Esc" nesse keyPress */}
+        {appConfig.emojiLabel}
+      </StickerButton>
+      
       {isOpen && (
-        <Box
-          styleSheet={{
-            display: 'flex',
-            flexDirection: 'column',
-            borderRadius: '5px',
-            position: 'absolute',
-            backgroundColor: appConfig.theme.colors.neutrals[800],
-            width: {
-              xs: '200px',
-              sm: '290px',
-            },
-            height: '300px',
-            right: '30px',
-            bottom: '30px',
-            padding: '16px',
-            boxShadow: 'rgba(4, 4, 5, 0.15) 0px 0px 0px 1px, rgba(0, 0, 0, 0.24) 0px 8px 16px 0px',
-          }}
-          onClick={() => setOpenState(false)}
-          
-        >
-          <Text
-            styleSheet={{
-              color: appConfig.theme.colors.neutrals["000"],
-              fontWeight: 'bold',
-            }}
-          >
-            Stickers
-          </Text>
-          <Box
-            tag="ul"
-            styleSheet={{
-              display: 'flex',
-              flexWrap: 'wrap',
-              justifyContent: 'space-between',
-              flex: 1,
-              paddingTop: '16px',
-              overflow: 'scroll',
-            }}
-          >
+        <FrameBox onClick={() => setOpenState(false)}>
+          <h5 className="h5 text-light">Stickers</h5>
+          <FrameUl>
             {appConfig.stickers.map((sticker) => (
-              <Text
+              <FrameLi
                 onClick={() => {
                   //console.log('[DENTRO DO COMPONENTE] Clicou no sticker:', sticker);
                   if (Boolean(props.onStickerClick)) {
                     props.onStickerClick(sticker);
                   }
                 }}
-                tag="li" key={sticker}
-                styleSheet={{
-                  width: '50%',
-                  borderRadius: '5px',
-                  padding: '10px',
-                  focus: {
-                    backgroundColor: appConfig.theme.colors.neutrals[600],
-                  },
-                  hover: {
-                    backgroundColor: appConfig.theme.colors.neutrals[600],
-                  }
-                }}
+                key={sticker}
               >
-                <Image src={sticker} />
-              </Text>
+                <img className="img-fluid" src={sticker} />
+              </FrameLi>
             ))}
-          </Box>
-        </Box>
+          </FrameUl>
+        </FrameBox>
       )}
-    </Box>
-  )
+    </div>
+  );
 }
