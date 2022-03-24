@@ -33,7 +33,7 @@ const ChatBox = styled.div`
   position: fixed;
   top: 19vh;
   left: 66vw;
-  display: none;
+  display: flex;
   flex-direction: column;
   flex: 1;
   box-shadow: 0 2px 10px 0 rgb(0 0 0 / 20%);
@@ -43,7 +43,6 @@ const ChatBox = styled.div`
   max-width: 30%;
   max-height: 80vh;
   padding: 15px;
-  /* pointer-events: none; */
 `;
 const ChatHeader = styled.div`
   width: 100%;
@@ -84,6 +83,7 @@ const ChatTextField = styled.input`
 // ------------------- CSS ↑ -----------------------//
 
 export default function Chat() {
+  const [chatOpen, setChatOpen] = React.useState();
   const [message, setMessage] = React.useState("");
   const [messageList, setMessageList] = React.useState([]);
   const router = useRouter();
@@ -113,58 +113,72 @@ export default function Chat() {
     setMessage("");
   }
 
-  function openedChat() {
-    //document.getElementById()
-  }
-
   return (
-    <div onClick={openedChat}>
-      <ChatStart className="material-icons">question_answer</ChatStart>
-      <ChatBox>
-        <ChatHeader>
-          <h6 className="h6 text-light">Chat</h6>
-          <button
-            className="btn btn-danger btn-sm p-0 material-icons"
-            href="/"
-          >
-            close
-          </button>
-        </ChatHeader>
-        <MsgBox>
-          <MessageList messages={messageList} />
-          <ChatForm as="form" id="chat-form">
-            <ChatTextField
-              placeholder="Insira sua mensagem aqui..."
-              type="textarea"
-              value={message}
-              onChange={(event) => {
-                setMessage(event.target.value);
+    <>
+      <ChatStart className="material-icons" onClick={() => setChatOpen(true)}>
+        question_answer
+      </ChatStart>
+
+      {chatOpen && (
+        <ChatBox>
+          <ChatHeader>
+            <h6 className="h6 text-light">Chat</h6>
+            <button
+              className="btn btn-secondary btn-sm p-0 material-icons"
+              onClick={() => setChatOpen(false)}
+              style={{
+                marginLeft: "73%",
               }}
-              onKeyPress={(event) => {
-                if (event.key === "Enter") {
+            >
+              close
+            </button>
+            <button
+              className="btn btn-danger btn-sm p-0 material-icons"
+              onClick={() => router.push("/")}
+            >
+              logout
+            </button>
+          </ChatHeader>
+          <MsgBox>
+            <MessageList messages={messageList} />
+            <ChatForm as="form" id="chat-form">
+              <ChatTextField
+                placeholder="Insira sua mensagem aqui..."
+                type="textarea"
+                value={message}
+                onChange={(event) => {
+                  setMessage(event.target.value);
+                }}
+                onKeyPress={(event) => {
+                  if (event.key === "Enter") {
+                    event.preventDefault();
+                    handlerMessage(message);
+                  }
+                }}
+              />
+              <BtnSendSticker
+                onStickerClick={(chosenSticker) => {
+                  handlerMessage(":sticker: " + chosenSticker); // Seta Sticker diretamente na lista
+                  // setMessage(":sticker: " + chosenSticker) Seta sticker no textfield
+                }}
+              />
+              <button
+                id="send-btn"
+                style={{
+                  marginRight: "8px",
+                }}
+                className="btn btn-primary btn-sm material-icons"
+                onClick={(event) => {
                   event.preventDefault();
                   handlerMessage(message);
-                }
-              }}
-            />
-            <BtnSendSticker
-              onStickerClick={(chosenSticker) => {
-                handlerMessage(":sticker: " + chosenSticker); // Seta Sticker diretamente na lista
-                // setMessage(":sticker: " + chosenSticker) Seta sticker no textfield
-              }}
-            />
-            <button
-              id="send-btn"
-              style={{ 
-                marginRight: "8px",
-              }}
-              className="btn btn-primary btn-sm material-icons"
-            >
-              send
-            </button>
-          </ChatForm>
-        </MsgBox>
-      </ChatBox>
-    </div>
+                }}
+              >
+                send
+              </button>
+            </ChatForm>
+          </MsgBox>
+        </ChatBox>
+      )}
+    </>
   );
 }

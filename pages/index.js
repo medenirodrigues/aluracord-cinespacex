@@ -15,7 +15,6 @@ export const BackgroundWrapper = styled.div`
   background-repeat: no-repeat;
   background-size: cover;
 `;
-
 const CardForm = styled.div`
   display: flex;
   align-items: center; // main axis is the transversal axis, you flex-direction is column
