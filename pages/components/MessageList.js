@@ -1,4 +1,4 @@
-import { Text } from "@skynexui/components";
+//import { Text } from "@skynexui/components";
 import React from "react";
 import appConfig from "../../config.json";
 import styled from "styled-components";
@@ -67,7 +67,7 @@ export function MessageList(props) {
             <MsgListLi key={currentMessage.id}>
               <LiHeader>
                 <LiImg src={`https://github.com/${currentMessage.from}.png`} />
-                <Text tag="strong">{currentMessage.from}</Text>
+                <h6>{currentMessage.from}</h6>
                 <ListSpan>{new Date().toLocaleDateString()}</ListSpan>
                 {/* Get created at from currentMessage  */}
               </LiHeader>

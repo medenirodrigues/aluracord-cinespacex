@@ -5,7 +5,7 @@ import Chat from "./Chat";
 import styled from "styled-components";
 import { BackgroundWrapper } from "../index";
 import { MoviePoster } from "./MoviePoster";
-import { movieData, selectedMovieData } from "../../services/themdb.api";
+import { movieData } from "../../services/themdb.api";
 
 const HomeBackground = styled(BackgroundWrapper)`
   height: 100%; 
