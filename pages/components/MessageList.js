@@ -58,7 +58,6 @@ const StickerImg = styled.img`
 `;
 
 export default function MessageList(props) {
-    //console.log(props)
     return (
       <MsgListUl>
         {props.messages.map((currentMessage) => {

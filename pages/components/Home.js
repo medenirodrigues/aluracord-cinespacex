@@ -4,7 +4,7 @@ import appConfig from "../../config.json";
 import Chat from "./Chat";
 import styled from "styled-components";
 import { BackgroundWrapper } from "../index";
-import { MoviePoster } from "./MoviePoster";
+import MoviePoster from "./MoviePoster";
 import { movieData } from "../../services/themdb.api";
 
 const HomeBackground = styled(BackgroundWrapper)`
