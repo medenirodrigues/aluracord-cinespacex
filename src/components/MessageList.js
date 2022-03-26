@@ -57,7 +57,7 @@ const StickerImg = styled.img`
   padding: 10px;
 `;
 
-export function MessageList(props) {
+export default function MessageList(props) {
     return (
       <MsgListUl>
         {props.messages.map((currentMessage) => {

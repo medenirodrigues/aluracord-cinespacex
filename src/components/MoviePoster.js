@@ -10,7 +10,7 @@ const MoviePosterUnt = styled.div`
   cursor: pointer;
 `;
 
-export function MoviePoster(props) {
+export default function MoviePoster(props) {
   async function fillModalData(event) {
     const movieDetails = await selectedMovieData(event.target.id);
     const movieModal = new bootstrap.Modal(
