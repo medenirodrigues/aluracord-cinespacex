@@ -85,7 +85,6 @@ export default function BtnSendSticker(props) {
         className="me-3"
         onKeyPress={event => console.log(event.key)}
       >
-        {/* adicionar uma forma de fechar o component tbm apertando "Esc" nesse keyPress */}
         {appConfig.emojiLabel}
       </StickerButton>
       
@@ -96,7 +95,6 @@ export default function BtnSendSticker(props) {
             {appConfig.stickers.map((sticker) => (
               <FrameLi
                 onClick={() => {
-                  //console.log('[DENTRO DO COMPONENTE] Clicou no sticker:', sticker);
                   if (Boolean(props.onStickerClick)) {
                     props.onStickerClick(sticker);
                   }

@@ -52,38 +52,14 @@ const Greetings = styled.h3`
   margin-bottom: 20px;
 `;
 
-// function Titulo(props) {
-//   const Tag = props.tag || "h1";
-//   return (
-//     <>
-//       <Tag>{props.children}</Tag>
-//       <style jsx>{`
-//         ${Tag} {
-//           color: ${appConfig.theme.colors.neutrals["000"]};
-//           font-size: 24px;
-//           font-weight: 600;
-//         }
-//       `}</style>
-//     </>
-//   );
-// }
-
 export default function LoginPage() {
   /***
-   * através do destructuring ele cria a const username na qual ele seta a string passa no primeiro
-   * momento que carrega o component, setUsername é criado e a ele é atribuido o método nativo do
-   * React useState()
+   * I made this useState point trought of object destructure that first of all create 
+   * a empty variable for store the username typed
    */
   const [username, setUsername] = React.useState();
-  /**
-   * useRouter() é um método para gerenciamento de rotas no Next.js... adicionar mais dados relacionados ao
-   * método
-   */
   const goTo = useRouter();
 
-  /**
-   * [] Criar uma api que retorne o avatar de atores/atrizes caso o usuário ainda não esteja logado!
-   */
   function randomAvatar() {
     const avatars = [
       "denzel.png",
@@ -107,8 +83,7 @@ export default function LoginPage() {
           <Form
             as="form"
             onSubmit={(eventInfo) => {
-              // Cancela o comportamento padrão de carregar a págino ao mudar de rota
-              eventInfo.preventDefault();
+              eventInfo.preventDefault(); // For break default behavior of charge whole the page
               goTo.push(`/Home?username=${username}`);
             }}
           >

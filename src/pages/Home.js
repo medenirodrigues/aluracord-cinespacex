@@ -5,8 +5,8 @@ import Chat from "../components/Chat";
 import styled from "styled-components";
 
 import { BackgroundWrapper } from ".";
-import MoviePoster  from "../components/MoviePoster";
 import { movieData } from "../../services/themdb.api";
+import MoviePoster  from "../components/MoviePoster";
 
 const HomeBackground = styled(BackgroundWrapper)`
   height: 100%; 
@@ -51,8 +51,9 @@ export default function Home() {
     <HomeBackground>
       {movieArray?.map((movie, idx) => {
         return (
-          //Averiguar o porque q o style do bootstrap n tá funfando
-          // provavelmente por canta das classes
+          /**
+           * There are a fix to solve on this component a bootstrap issue
+           */
           <>
             <MoviePoster
               img={movie.poster_path}
