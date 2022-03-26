@@ -1,4 +1,3 @@
-//import { Text } from "@skynexui/components";
 import React from "react";
 import appConfig from "../../config.json";
 import styled from "styled-components";
@@ -58,7 +57,7 @@ const StickerImg = styled.img`
   padding: 10px;
 `;
 
-export function MessageList(props) {
+export default function MessageList(props) {
     //console.log(props)
     return (
       <MsgListUl>
