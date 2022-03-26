@@ -3,8 +3,8 @@ import { useRouter } from "next/router";
 
 import appConfig from "../../config.json";
 import styled from "styled-components";
-import BtnSendSticker from "./BtnSendSticker";
-import MessageList from "./MessageList";
+import { BtnSendSticker } from "./BtnSendSticker";
+import { MessageList } from "./MessageList";
 import {
   insertMessage,
   listeningMessageTable,

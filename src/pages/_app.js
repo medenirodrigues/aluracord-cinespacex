@@ -1,7 +1,7 @@
 import React from "react";
 import Head from "next/head";
 import Script from "next/script";
-import appConfig from "../config.json";
+import appConfig from "../../config.json";
 
 function GlobalStyle() {
   return (

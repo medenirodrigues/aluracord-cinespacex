@@ -2,7 +2,7 @@
  * @type {import('next').NextConfig}
  */
  const nextConfig = {
-   pageExtensions: ['messagelist.js', 'movieposter.js', 'btnsendsticker.js']
+   //pageExtensions: ['MessageList.js', 'MoviePoster.js', 'BtnSendSticker.js', 'Chat.js']
   }
   
   module.exports = nextConfig

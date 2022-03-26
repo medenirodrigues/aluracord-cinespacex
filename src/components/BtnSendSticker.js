@@ -2,7 +2,7 @@ import React from "react";
 import appConfig from "../../config.json";
 import styled from "styled-components";
 
-export default function BtnSendSticker(props) {
+export function BtnSendSticker(props) {
   const [isOpen, setOpenState] = React.useState("");
 
   const StickerButton = styled.button`

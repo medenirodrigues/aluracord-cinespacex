@@ -10,20 +10,16 @@ const MoviePosterUnt = styled.div`
   cursor: pointer;
 `;
 
-export default function MoviePoster(props) {
+export function MoviePoster(props) {
   async function fillModalData(event) {
     const movieDetails = await selectedMovieData(event.target.id);
     const movieModal = new bootstrap.Modal(
       document.getElementById("staticBackdrop")
     );
 
-    console.log(movieDetails);
-
     document.getElementById("staticBackdropLabel").innerText =
       movieDetails.original_title;
-
     document.getElementById("modalId").innerText = movieDetails.overview;
-
     document.getElementById("modalImg").src =
       "https://www.themoviedb.org/t/p/w600_and_h900_bestv2" +
       movieDetails.poster_path;
@@ -84,8 +80,6 @@ export default function MoviePoster(props) {
       <MoviePosterUnt
         onClick={fillModalData}
         id={props.idValue}
-        // data-bs-toggle={activeModal}
-        //data-bs-target="#staticBackdrop"
       >
         <img
           src={

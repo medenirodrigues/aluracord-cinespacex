@@ -1,10 +1,11 @@
 import React from "react";
 
 import appConfig from "../../config.json";
-import Chat from "./Chat";
+import Chat from "../components/Chat";
 import styled from "styled-components";
-import { BackgroundWrapper } from "../index";
-import MoviePoster from "./MoviePoster";
+
+import { BackgroundWrapper } from ".";
+import { MoviePoster } from "../components/MoviePoster";
 import { movieData } from "../../services/themdb.api";
 
 const HomeBackground = styled(BackgroundWrapper)`

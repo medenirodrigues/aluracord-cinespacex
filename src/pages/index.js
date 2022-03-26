@@ -1,8 +1,8 @@
 import React from "react";
 import { useRouter } from "next/router";
 
-import appConfig from "../config.json";
-import LoginForm from "./components/LoginForm";
+import appConfig from "../../config.json";
+import LoginForm from "./LoginForm";
 import styled from "styled-components";
 
 export const BackgroundWrapper = styled.div`
@@ -109,7 +109,7 @@ export default function LoginPage() {
             onSubmit={(eventInfo) => {
               // Cancela o comportamento padrão de carregar a págino ao mudar de rota
               eventInfo.preventDefault();
-              goTo.push(`/components/Home?username=${username}`);
+              goTo.push(`/Home?username=${username}`);
             }}
           >
             <LoginForm

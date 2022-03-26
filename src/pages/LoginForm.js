@@ -52,7 +52,6 @@ export default function LoginForm({
   btnLabel,
   onclick,
 }) {
-  //console.log(btnLabel)
   return (
     <>
       <SecWrap>
