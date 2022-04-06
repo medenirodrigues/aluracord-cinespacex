@@ -24,7 +24,6 @@ const CardForm = styled.div`
   border-top-right-radius: 15px;
   border-bottom-right-radius: 15px;
   vertical-align: middle;
-  max-width: 700px;
   padding: 85px 70px;
   background-color: ${appConfig.theme.colors.primary["500"]};
   box-shadow: rgba(0, 0, 0, 0.1) 0px 20px 25px -5px,
@@ -71,6 +70,7 @@ export default function LoginPage() {
     ];
 
     const idx = Math.floor(Math.random() * 7);
+    //console.log(avatars[idx])
     return avatars[idx];
   }
 
@@ -87,6 +87,7 @@ export default function LoginPage() {
               goTo.push(`/Home?username=${username}`);
             }}
           >
+            {/* There are some warnings in this component, see later */}
             <LoginForm
               placeholder="Digite seu usuário github"
               textValue={username}

@@ -10,6 +10,8 @@ const SecWrap = styled.section`
 `;
 const Avatar = styled.img`
   width: 180px;
+  min-width: 180px;
+  min-height: 180px;
   border-radius: 50%;
   margin-bottom: 16px;
   align-items: center;
