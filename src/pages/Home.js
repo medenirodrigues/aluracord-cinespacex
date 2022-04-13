@@ -34,12 +34,13 @@ export default function Home() {
    * currentPage number and call movieData() service.
    */
   React.useEffect(() => {
-    const intersecObserver = new IntersectionObserver((entries) => {
+    const intersecObserver = new IntersectionObserver(
+      entries => {
       if (entries.some((entry) => entry.isIntersecting)) {
         setCurrentPage(() => {
           return currentPage++;
         });
-        movieData(setMovieArray, currentPage, movieArray);
+        movieData(setMovieArray, currentPage);
       }
     });
 

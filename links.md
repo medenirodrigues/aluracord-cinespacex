@@ -4,5 +4,12 @@
 
 <!-- https://api.github.com/users/medenirodrigues/followers -->
 
-<!-- IMDB API https://rapidapi.com/blog/lp/imdb-api/?utm_source=google&utm_medium=cpc&utm_campaign=Alpha&utm_term=imdb%20api_e&gclid=Cj0KCQiAuvOPBhDXARIsAKzLQ8ExVMO7BAMSBi-Re_zU7Op5bNSx3MWuVuwD5KkXGaJJahBoxqMslFkaAjOsEALw_wcB -->
 
+<!-- 
+[ ] Ajuste do Avatar vazio
+[ ] Ajuste da tela quebrando no refresh e recarregamento da mesma tela
+[ ] Responsividade da home e do aviso do acesso somente por telas maiores
+[ ] Limpeza do Projeto
+[ ] Ajuste dos Dados no Modal dos filmes
+[ ] Criação do Markdown do repositório com passos da instalação pra troca de mensagens 
+-->

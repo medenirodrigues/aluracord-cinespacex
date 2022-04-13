@@ -10,7 +10,7 @@ let PAGE_NUMBER = 0
  *
  * Picture Prefix "https://www.themoviedb.org/t/p/w600_and_h900_bestv2"
  */
-export function movieData(fillArray, currentPage, movieArray) {
+export function movieData(fillArray, currentPage) {
     PAGE_NUMBER = currentPage
     fetch(API_URL + API_KEY + PAGE_QUERY + PAGE_NUMBER)
       .then((response) => response.json())
