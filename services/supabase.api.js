@@ -1,9 +1,8 @@
 import { createClient } from "@supabase/supabase-js";
 
-const SUPABASE_ANON_PUBLIC =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiIsImlhdCI6MTY0MzU1MjA1NCwiZXhwIjoxOTU5MTI4MDU0fQ.jOFoJHkM3QZ-90MtskDLQpQGLjyEbXP_BBTgYxT9z1o";
-const SUPABASE_URL = "https://syrabaclfultwbmoygvl.supabase.co";
-const sbClient = createClient(SUPABASE_URL, SUPABASE_ANON_PUBLIC);
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
+const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_PUBLIC
+const sbClient = createClient(supabaseUrl, supabaseAnonKey);
 
 // This service listen to update mades on the "messages" table
 // to create real time's effect in our Chat

@@ -7,6 +7,7 @@
 
 <!-- 
 [ ] Ajuste do Avatar vazio
+[ ] Desenvolvimento Desenvolvimento das variáveis de Ambiente ENV do Projeto
 [ ] Ajuste da tela quebrando no refresh e recarregamento da mesma tela
 [ ] Responsividade da home e do aviso do acesso somente por telas maiores
 [ ] Limpeza do Projeto

@@ -53,7 +53,7 @@ const Greetings = styled.h3`
 
 export default function LoginPage() {
   /***
-   * I made this useState point trought of object destructure that first of all create 
+   * I made this useState point trought of object destructure that first of all create
    * a empty variable for store the username typed
    */
   const [username, setUsername] = React.useState();
@@ -70,8 +70,15 @@ export default function LoginPage() {
     ];
 
     const idx = Math.floor(Math.random() * 7);
-    //console.log(avatars[idx])
-    return avatars[idx];
+    // const input = document.getElementById("user-input")
+    let url = ''
+
+    if (username === undefined) {
+      url = `/images/${avatars[idx]}`
+    } else {
+      url = `https://github.com/${username}.png`;
+    } 
+    return url
   }
 
   return (
@@ -92,7 +99,9 @@ export default function LoginPage() {
               placeholder="Digite seu usuário github"
               textValue={username}
               btnLabel="Login"
-              title="Digite seu usuário no github para carregar seu avatar."
+              userTip="Digite seu usuário no github para carregar seu avatar."
+              profileAvatar={randomAvatar()}
+              // oninput={randomAvatar()}
               onchange={(event) => setUsername(event.target.value)}
               onclick={(eventClick) => {
                 if (username.length < 3) {
@@ -100,11 +109,6 @@ export default function LoginPage() {
                   eventClick.preventDefault();
                 }
               }}
-              src={
-                username === undefined
-                  ? `/images/${randomAvatar()}`
-                  : `https://github.com/${username}.png`
-              }
             />
           </Form>
         </CardForm>

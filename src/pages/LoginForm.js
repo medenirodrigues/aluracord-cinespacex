@@ -48,20 +48,23 @@ const Button = styled.button`
 export default function LoginForm({
   placeholder,
   textValue,
-  src,
-  title,
+  profileAvatar,
+  userTip,
   onchange,
-  btnLabel,
   onclick,
+  oninput,
+  btnLabel,
 }) {
   return (
     <>
       <SecWrap>
-        <Avatar src={src} title={title} />
+        <Avatar src={profileAvatar} title={userTip} />
         <TextField
+          id="user-input"
           value={textValue}
           placeholder={placeholder}
           onChange={onchange}
+          // onInput={oninput}
         />
         <Button type="submit" onClick={onclick}>{btnLabel}</Button>
       </SecWrap>
